@@ -43,10 +43,10 @@ export const questions = [
   },
   {
     id: "q5",
-    title: "どんなシーンに贈りたいですか？",
+    title: "どんなシーンで選びたいですか？",
     options: [
-      { value: "birthday", label: "誕生日" },
-      { value: "small_celebration", label: "ちょっとしたお祝い" },
+      { value: "birthday", label: "誕生日やお祝い" },
+      { value: "small_celebration", label: "ちょっとした贈り物" },
       { value: "season_event", label: "季節のイベント" },
       { value: "wedding", label: "結婚式・記念日など特別な日" },
     ],
