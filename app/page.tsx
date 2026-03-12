@@ -486,7 +486,7 @@ export default function Home() {
                          <a
                            // onClick={handleRestart}
                             //className="answerButton"
-                             href={item!.variants[0].url}
+                             href={singleVariants.url}
                             target="_blank"
                             rel="noopener noreferrer"
                             style={{
