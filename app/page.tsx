@@ -160,9 +160,9 @@ export default function Home() {
          >
          <strong> \ こんな人におすすめ /</strong>
           <br/>
-          ・友達へのプレゼントを探している
+          ・友達へのプレゼントを探している<br/>
           
-          ・推し活ギフトを探している
+          ・推し活ギフトを探している<br/>
          
           ・自分へのご褒美を探している
           </div>
@@ -199,9 +199,10 @@ export default function Home() {
         >
           <h1
             style={{
-              fontSize: "50px",
+              fontSize: "clamp(42px,10v,50px)",
               textAlign: "center",
-              marginBottom: "10px",
+              marginBottom: "12px",
+              lineHeight:1.2,
               color: "#5a3a3a",
             }}
           >
@@ -212,8 +213,9 @@ export default function Home() {
             style={{
               textAlign: "center",
               color: "#7a5a5a",
-              marginBottom: "20px",
-              fontSize: "20px",
+              marginBottom: "28px",
+              fontSize: "clamp(18px,4.8v,20px)",
+              lineHeight:1.7,
             }}
           >
             あなたに１番おすすめの商品はこちらです
@@ -273,9 +275,10 @@ export default function Home() {
       <div>
         <h2
           style={{
-            fontSize: "38px",
+            fontSize: "clamp(32px,8v,38px)",
             marginBottom: "10px",
-            fontWeight: 500,
+            fontWeight: 600,
+            lineHeight:1.25,
           }}
         >
           {top1.name}
@@ -283,8 +286,8 @@ export default function Home() {
 
         <p
           style={{
-            fontSize: "30px",
-            marginBottom: "12px",
+            fontSize: "clamp(24px,6.5v,30px)",
+            marginBottom: "18px",
             color: "#b07f5c",
             fontWeight: 700,
           }}
@@ -333,14 +336,26 @@ export default function Home() {
             </button>
           )}
 
+
+
+
+
+div
+style={{
+    display:"grid",
+    gap:"14px",
+    marginTop:"20px",
+    marginBottom:"18px",
+}}
           <button
 
             onClick={handleRestart}
             className="answerButton"
             style={{
-              padding: "14px 24px",
-              fontSize: "16px",
-              borderRadius: "12px",
+              padding: "16px 24px",
+              width:"100%",
+              fontSize: "18px",
+              borderRadius: "16px",
               border: "none",
               backgroundColor: "#c9a27e",
               color: "#fff",
@@ -367,10 +382,11 @@ export default function Home() {
             }}
              className="answerButton"
             style={{
-              padding: "14px 24px",
-              fontSize: "16px",
-              borderRadius: "12px",
-              border: "1px solid #444",
+              padding: "16px 24px",
+              width:"100%",
+              fontSize: "18px",
+              borderRadius: "16px",
+              border: "1px solid #4a3a34",
               backgroundColor: "#fff",
               color: "#5a3a3a",
               cursor: "pointer",
@@ -412,8 +428,9 @@ export default function Home() {
       >
         <h3
           style={{
-            fontSize: "24px",
-            marginBottom: "18px",
+            fontSize: "clamp(28px,7vw,34px)",
+            marginBottom: "14px",
+            lineHeight:1.35,
           }}
         >
           ▼ おすすめ商品の種類を選ぶ
@@ -424,6 +441,7 @@ export default function Home() {
             color: "#7a5a5a",
             marginBottom: "20px",
             lineHeight: 1.8,
+            fontSize:"18px"
           }}
         >
           気になる種類を選んで、詳細ページをご覧ください。
@@ -461,8 +479,9 @@ export default function Home() {
 
                         <h4
                           style={{
-                            fontSize: "20px",
-                            marginBottom: "12px",
+                            fontSize: "clamp(18px,5vw,22px)",
+                            marginBottom: "14px",
+                            lineHeight:1.5,
                           }}
                         >
                           {variant.name}
@@ -474,12 +493,13 @@ export default function Home() {
                             style={{
                             display: "inline-block",
                             padding: "12px 18px",
-                            borderRadius: "12px",
+                            borderRadius: "14px",
                             border: "#7a5a5a",
                             backgroundColor:"#c9a27e",
                             color: "#fff",
                             textDecoration: "none",
                             fontWeight: 700,
+                            fontSize:"17px",
                           }}
                         >
                           商品を見る
@@ -664,9 +684,9 @@ export default function Home() {
 
         <h1
           style={{
-            fontSize: "clamp(28px,7.5vw,32px)",
-            marginBottom: "28px",
-            lineHeight: 1.35,
+            fontSize: "clamp(26px,7vw,32px)",
+            marginBottom: "26px",
+            lineHeight: 1.4,
             letterSpacing :"0.2px",
           }}
         >
@@ -676,7 +696,7 @@ export default function Home() {
 
 <div
   style={{
-    marginBottom: "20px",
+    marginBottom: "16px",
   }}
 >
   {currentIndex > 0 && (
@@ -723,7 +743,7 @@ export default function Home() {
                 color: "#fff",
                 cursor: "pointer",
                 fontSize: "clamp(17px,4.6vw,19px)",
-                lineHeight: 1.55,
+                lineHeight: 1.6,
                 transition:"0.2s",
                 boxShadow:"0 4px 12px rgba(0,0,0,0.03)",
               }}
