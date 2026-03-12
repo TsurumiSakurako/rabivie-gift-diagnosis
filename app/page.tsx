@@ -91,7 +91,7 @@ export default function Home() {
             style={{
               fontSize: "clamp(16px,4vw,22px)",
               fontWeight: 700,
-              marginBottom: "12px",
+              marginBottom: "18px",
           color:"#9c7b66",
           letterSpacing:"0.5px",
             }}
@@ -101,10 +101,11 @@ export default function Home() {
 
           <h1
             style={{
-              fontSize: "clamp(42px,11vw,58px)",
+              fontSize: "clamp(42px,11vw,56px)",
               fontWeight: 700,
-              marginBottom: "16px",
+              marginBottom: "24px",
               letterSpacing:"0.5px",
+              lineHeight:1.25,
             }}
           >
             RabiVie <br/>
@@ -115,7 +116,7 @@ export default function Home() {
 
           <p
             style={{
-              fontSize: "clamp(18px,4.8vw,20px)",
+              fontSize: "clamp(17px,4.8vw,18px)",
               lineHeight: 1.9,
               color: "#5a3a3a",
               marginBottom: "42px",
@@ -130,19 +131,19 @@ export default function Home() {
             onClick={() => setStarted(true)}
             className="answerButton"
             style={{
-              padding: "20px 32px",
+              padding: "18px 20px",
               width:"100%",
-              maxWidth:"520px",
+              maxWidth:"500px",
               fontSize: "22px",
-              borderRadius: "26px",
+              borderRadius: "24px",
               border: "none",
               backgroundColor:"#c9a27e",
               color: "#fff",
               cursor: "pointer",
               fontWeight: 700,
               transition:"0.2s",
-              boxShadow:"0 4px 12px rgba(0,0,0,0.58)",
-              marginBottom:"40px",
+              boxShadow:"0 6px 18px rgba(0,0,0,0.58)",
+              marginBottom:"32px",
 
             }}
           >
@@ -150,10 +151,10 @@ export default function Home() {
           </button>
 
           <div style={{
-          marginTop:"80px",
+          marginTop:"56px",
           fontSize:"clamp(16px,4.3vw,18px)",
           color:"#7a5a5a",
-          lineHeight:2,
+          lineHeight:1.9,
           textAlign:"center",
           }}
          >
