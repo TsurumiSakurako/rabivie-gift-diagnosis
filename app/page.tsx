@@ -317,8 +317,11 @@ export default function Home() {
         >
           {singleVariant && (
             <a
- onClick={handleRestart}
-            className="answerButton"
+                           // onClick={handleRestart}
+                            //className="answerButton"
+                             href={item!.variants[0].url}
+                            target="_blank"
+                            rel="noopener noreferrer"
             style={{
                 display: "inline-block",
                 padding: "14px 24px",
@@ -481,8 +484,11 @@ export default function Home() {
                         </h4>
 
                          <a
-                            onClick={handleRestart}
-                            className="answerButton"
+                           // onClick={handleRestart}
+                            //className="answerButton"
+                             href={item!.variants[0].url}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             style={{
                             display: "inline-block",
                             padding: "12px 18px",
@@ -596,8 +602,11 @@ export default function Home() {
 
                     {item!.variants && item!.variants.length > 0 && (
                       <a
-                          onClick={handleRestart}
-                          className="answerButton"
+                           // onClick={handleRestart}
+                            //className="answerButton"
+                             href={item!.variants[0].url}
+                            target="_blank"
+                            rel="noopener noreferrer"
                           style={{
                           display: "inline-block",
                           padding: "12px 18px",
