@@ -161,9 +161,9 @@ export default function Home() {
          <strong> \ こんな人におすすめ /</strong>
           <br/>
           ・友達へのプレゼントを探している
-          <br/>
+          
           ・推し活ギフトを探している
-          <br/>
+         
           ・自分へのご褒美を探している
           </div>
         </div>
@@ -622,10 +622,12 @@ export default function Home() {
         style={{
           width: "100%",
           maxWidth: "760px",
-          backgroundColor:"#ffffff", color:"#333", boxShadow:"0 10px 24px rgba(0,0,0,0.06)",
-          borderRadius: "24px",
-          padding: "32px 24px",
-          border: "1px solid #222",
+          backgroundColor:"#ffffff", 
+          color:"#333", 
+          boxShadow:"0 10px 24px rgba(0,0,0,0.06)",
+          borderRadius: "28px",
+          padding: "36px 22px 28px",
+          border: "1px solid #4a3a34",
         }}
       >
         <div
@@ -662,9 +664,10 @@ export default function Home() {
 
         <h1
           style={{
-            fontSize: "32px",
-            marginBottom: "36px",
-            lineHeight: 1.5,
+            fontSize: "clamp(28px,7.5vw,32px)",
+            marginBottom: "28px",
+            lineHeight: 1.35,
+            letterSpacing :"0.2px",
           }}
         >
           {currentQuestion.title}
@@ -682,11 +685,11 @@ export default function Home() {
       onClick={handleBack}
       className="answerButton"
       style={{
-        padding: "10px 16px",
-        fontSize: "14px",
-        borderRadius: "12px",
-        border: "1px solid #bfa58d",
-        backgroundColor: "transparent",
+        padding: "12px 18px",
+        fontSize: "15px",
+        borderRadius: "14px",
+        border: "1px solid #c9a27e",
+        backgroundColor: "fffaf5",
         color: "#8a6a55",
         cursor: "pointer",
         fontWeight: 700,
@@ -712,16 +715,17 @@ export default function Home() {
               className="answerButton"
               style={{
                 textAlign: "left",
-                fontWeight: 1000,
-                padding: "18px 24px",
-                borderRadius: "16px",
-                border: "1px solid #333",
+                fontWeight: 700,
+                padding: "20px 22px",
+                borderRadius: "18px",
+                border: "1px solid #4a3a34",
                 backgroundColor:"#c9a27e",
                 color: "#fff",
                 cursor: "pointer",
-                fontSize: "19px",
-                lineHeight: 1.6,
+                fontSize: "clamp(17px,4.6vw,19px)",
+                lineHeight: 1.55,
                 transition:"0.2s",
+                boxShadow:"0 4px 12px rgba(0,0,0,0.03)",
               }}
             >
               {option.label}
