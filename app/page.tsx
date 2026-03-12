@@ -153,7 +153,7 @@ export default function Home() {
           marginTop:"80px",
           fontSize:"clamp(16px,4.3vw,18px)",
           color:"#7a5a5a",
-          lineHeight:2
+          lineHeight:2,
           textAlign:"center",
           }}
          >
