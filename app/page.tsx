@@ -340,13 +340,6 @@ export default function Home() {
 
 
 
-div
-style={{
-    display:"grid",
-    gap:"14px",
-    marginTop:"20px",
-    marginBottom:"18px",
-}}
           <button
 
             onClick={handleRestart}
