@@ -43,7 +43,7 @@ export const questions = [
   },
   {
     id: "q5",
-    title: "どんなシーンで選びたいですか？",
+    title: "どんなシーンで使いたいですか？",
     options: [
       { value: "birthday", label: "誕生日やお祝い" },
       { value: "small_celebration", label: "ちょっとした贈り物" },
