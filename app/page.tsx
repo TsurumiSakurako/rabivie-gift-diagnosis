@@ -199,7 +199,7 @@ export default function Home() {
         >
           <h1
             style={{
-              fontSize: "clamp(42px,10v,50px)",
+              fontSize: "clamp(48px,10v,54px)",
               textAlign: "center",
               marginBottom: "12px",
               lineHeight:1.2,
@@ -214,7 +214,7 @@ export default function Home() {
               textAlign: "center",
               color: "#7a5a5a",
               marginBottom: "28px",
-              fontSize: "clamp(18px,4.8v,20px)",
+              fontSize: "clamp(22px,4.8v,24px)",
               lineHeight:1.7,
             }}
           >
@@ -421,7 +421,7 @@ export default function Home() {
       >
         <h3
           style={{
-            fontSize: "clamp(28px,7vw,34px)",
+            fontSize: "clamp(26px,6.8vw,32px)",
             marginBottom: "14px",
             lineHeight:1.35,
           }}
@@ -513,6 +513,7 @@ export default function Home() {
                 fontSize: "22px",
                 marginTop: "50px",
                 marginBottom: "8px",
+               
               }}            >
              ▼ こちらもおすすめ
             </h3>
@@ -522,6 +523,7 @@ export default function Home() {
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
                 gap: "18px",
+              
               }}
             >
               {[top2, top3].filter(Boolean).map((item) => {
@@ -556,6 +558,7 @@ export default function Home() {
                       style={{
                         fontSize: "24px",
                         marginBottom: "10px",
+                         lineHeight:1.45,
                       }}
                     >
                       {item!.name}
