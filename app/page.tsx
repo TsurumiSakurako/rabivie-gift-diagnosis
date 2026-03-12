@@ -89,10 +89,11 @@ export default function Home() {
           }}
         > <h1
             style={{
-              fontSize: "22px",
+              fontSize: "clamp(16px,4vw,22px)",
               fontWeight: 700,
-              marginBottom: "8px",
+              marginBottom: "12px",
           color:"#9c7b66",
+          letterSpacing:"0.5px",
             }}
           >
             Gift Finder
@@ -100,10 +101,10 @@ export default function Home() {
 
           <h1
             style={{
-              fontSize: "58px",
+              fontSize: "clamp(42px,11vw,58px)",
               fontWeight: 700,
-              marginBottom: "8px",
-              letterSpacing:"1px",
+              marginBottom: "16px",
+              letterSpacing:"0.5px",
             }}
           >
             RabiVie プレゼント診断
@@ -111,10 +112,10 @@ export default function Home() {
 
           <p
             style={{
-              fontSize: "20px",
+              fontSize: "clamp(18px,4.8vw,520px)",
               lineHeight: 1.8,
               color: "#5a3a3a",
-              marginBottom: "32px",
+              marginBottom: "36px",
             }}
           >
             ３分で終わる６つの質問で
@@ -126,9 +127,11 @@ export default function Home() {
             onClick={() => setStarted(true)}
             className="answerButton"
             style={{
-              padding: "18px 44px",
-              fontSize: "22px",
-              borderRadius: "16px",
+              padding: "18px 32px",
+              width:"100%",
+              maxWidth:"520px"
+              fontSize: "clamp(20px,5vw,22px)",
+              borderRadius: "20px",
               border: "none",
               backgroundColor:"#c9a27e",
               color: "#fff",
@@ -142,10 +145,10 @@ export default function Home() {
           </button>
 
           <div style={{
-          marginTop:"80px",
-          fontSize:"18px",
+          marginTop:"72px",
+          fontSize:"clamp(16px,4.3vw,18px)",
           color:"#7a5a5a",
-          lineHeight:1.8
+          lineHeight:2
           }}>
           \ こんな人におすすめ /
           <br/>
