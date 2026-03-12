@@ -316,7 +316,7 @@ export default function Home() {
           }}
         >
           {singleVariant && (
-            <button
+            <a
  onClick={handleRestart}
             className="answerButton"
             style={{
@@ -333,7 +333,7 @@ export default function Home() {
               }}
             >
               商品を見る
-            </button>
+            </a>
           )}
 
 
@@ -480,7 +480,7 @@ export default function Home() {
                           {variant.name}
                         </h4>
 
-                         <button
+                         <a
                             onClick={handleRestart}
                             className="answerButton"
                             style={{
@@ -496,7 +496,7 @@ export default function Home() {
                           }}
                         >
                           商品を見る
-                        </button>
+                        </a>
 
                       </article>
                     ))}
@@ -595,7 +595,7 @@ export default function Home() {
                     </div>
 
                     {item!.variants && item!.variants.length > 0 && (
-                      <button
+                      <a
                           onClick={handleRestart}
                           className="answerButton"
                           style={{
@@ -609,7 +609,7 @@ export default function Home() {
                         }}
                       >
                         商品を見る
-                      </button>
+                      </a>
                     )}
                   </article>
                 );
