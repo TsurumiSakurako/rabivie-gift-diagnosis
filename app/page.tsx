@@ -483,11 +483,11 @@ export default function Home() {
                           {variant.name}
                         </h4>
 
-                        {singleVariant && (
+                     
                          <a
                            // onClick={handleRestart}
                             //className="answerButton"
-                             href={singleVariant.url}
+                             href={Variant.url}
                             target="_blank"
                             rel="noopener noreferrer"
                             style={{
@@ -504,7 +504,7 @@ export default function Home() {
                         >
                           商品を見る
                         </a>
-                        )}
+                    
                       </article>
                     ))}
                   </div>
@@ -715,7 +715,7 @@ export default function Home() {
         fontSize: "15px",
         borderRadius: "14px",
         border: "1px solid #c9a27e",
-        backgroundColor: "fffaf5",
+        backgroundColor: "#fffaf5",
         color: "#8a6a55",
         cursor: "pointer",
         fontWeight: 700,
