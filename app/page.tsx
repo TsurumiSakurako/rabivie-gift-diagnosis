@@ -115,7 +115,7 @@ export default function Home() {
 
           <p
             style={{
-              fontSize: "clamp(18px,4.8vw,520px)",
+              fontSize: "clamp(18px,4.8vw,20px)",
               lineHeight: 1.9,
               color: "#5a3a3a",
               marginBottom: "42px",
@@ -141,7 +141,8 @@ export default function Home() {
               cursor: "pointer",
               fontWeight: 700,
               transition:"0.2s",
-              boxShadow:"0 6px 18px rgba(0,0,0,0.88)"
+              boxShadow:"0 4px 12px rgba(0,0,0,0.58)",
+              marginBottom:"40px",
 
             }}
           >
@@ -153,9 +154,10 @@ export default function Home() {
           fontSize:"clamp(16px,4.3vw,18px)",
           color:"#7a5a5a",
           lineHeight:2
+          textAlign:"center",
           }}>
          <strong> \ こんな人におすすめ /</strong>
-          <br/><br/>
+          <br/>
           ・友達へのプレゼントを探している
           <br/>
           ・推し活ギフトを探している
