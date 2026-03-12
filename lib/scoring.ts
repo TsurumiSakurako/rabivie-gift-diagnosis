@@ -263,6 +263,11 @@ export const scoring = {
       rose_charm: 3,
       alphabet_charm: 3,
     },
+
+
+
+
+
     season_event: {
       seasonal_bouquet: 5,
       seasonal_event_bouquet: 5,
