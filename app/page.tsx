@@ -107,15 +107,18 @@ export default function Home() {
               letterSpacing:"0.5px",
             }}
           >
-            RabiVie プレゼント診断
+            RabiVie <br/>
+            <span style={{fontSize:"0.75em"}}>
+              プレゼント診断
+              </span>
           </h1>
 
           <p
             style={{
               fontSize: "clamp(18px,4.8vw,520px)",
-              lineHeight: 1.8,
+              lineHeight: 1.9,
               color: "#5a3a3a",
-              marginBottom: "36px",
+              marginBottom: "42px",
             }}
           >
             ３分で終わる６つの質問で
@@ -127,17 +130,18 @@ export default function Home() {
             onClick={() => setStarted(true)}
             className="answerButton"
             style={{
-              padding: "18px 32px",
+              padding: "20px 32px",
               width:"100%",
               maxWidth:"520px",
-              fontSize: "clamp(20px,5vw,22px)",
-              borderRadius: "20px",
+              fontSize: "22px",
+              borderRadius: "26px",
               border: "none",
               backgroundColor:"#c9a27e",
               color: "#fff",
               cursor: "pointer",
               fontWeight: 700,
               transition:"0.2s",
+              boxShadow:"0 6px 18px rgba(0,0,0,0.88)"
 
             }}
           >
@@ -145,13 +149,13 @@ export default function Home() {
           </button>
 
           <div style={{
-          marginTop:"72px",
+          marginTop:"80px",
           fontSize:"clamp(16px,4.3vw,18px)",
           color:"#7a5a5a",
           lineHeight:2
           }}>
-          \ こんな人におすすめ /
-          <br/>
+         <strong> \ こんな人におすすめ /</strong>
+          <br/><br/>
           ・友達へのプレゼントを探している
           <br/>
           ・推し活ギフトを探している
