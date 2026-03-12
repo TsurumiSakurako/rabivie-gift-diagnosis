@@ -483,6 +483,7 @@ export default function Home() {
                           {variant.name}
                         </h4>
 
+                        {singleVariant && (
                          <a
                            // onClick={handleRestart}
                             //className="answerButton"
@@ -503,7 +504,7 @@ export default function Home() {
                         >
                           商品を見る
                         </a>
-
+                        )}
                       </article>
                     ))}
                   </div>
