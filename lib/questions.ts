@@ -1,13 +1,13 @@
 export const questions = [
   {
     id: "q1",
-    title: "なにをご希望ですか？",
+    title: "どんなものを選びたいですか？",
     options: [
-      { value: "gift_special", label: "大切な人へのプレゼント" },
-      { value: "gift_friend", label: "友達へのギフト" },
+      { value: "gift_special", label: "大切な人を喜ばせれるもの" },
+      { value: "gift_friend", label: "友達へのプレゼント" },
       { value: "reward_myself", label: "自分へのご褒美" },
-      { value: "oshi", label: "推し活グッズ" },
-      { value: "special_event", label: "特別なイベント用" },
+      { value: "oshi", label: "推し活で楽しみたい" },
+      { value: "special_event", label: "特別なイベントに" },
     ],
   },
   {
