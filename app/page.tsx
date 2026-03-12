@@ -155,7 +155,8 @@ export default function Home() {
           color:"#7a5a5a",
           lineHeight:2
           textAlign:"center",
-          }}>
+          }}
+         >
          <strong> \ こんな人におすすめ /</strong>
           <br/>
           ・友達へのプレゼントを探している
