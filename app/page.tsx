@@ -67,6 +67,10 @@ export default function Home() {
   setCurrentIndex((prev) => prev - 1);
 };
 
+const openProductPage = (url: string) => {
+  window.location.href = url;
+};
+
   if (!started) {
     return (
       <main
@@ -315,14 +319,11 @@ export default function Home() {
             marginBottom: "8px",
           }}
         >
-          {singleVariant && (
-            <a
-                           // onClick={handleRestart}
-                            //className="answerButton"
-                             href={singleVariant.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-            style={{
+          {singleVariant && (  //1種類だけ
+            <button
+               onClick={() => openProductPage(singleVariant.url)}
+                className="answerButton"
+                style={{
                 display: "inline-block",
                 padding: "14px 24px",
                 fontSize: "16px",
@@ -336,7 +337,7 @@ export default function Home() {
               }}
             >
               商品を見る
-            </a>
+            </button>
           )}
 
 
@@ -484,12 +485,9 @@ export default function Home() {
                         </h4>
 
                      
-                         <a
-                           // onClick={handleRestart}
-                            //className="answerButton"
-                             href={variant.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                         <button
+                             onClick={() => openProductPage(variant.url)}
+                            className="answerButton"
                             style={{
                             display: "inline-block",
                             padding: "12px 18px",
@@ -503,7 +501,7 @@ export default function Home() {
                           }}
                         >
                           商品を見る
-                        </a>
+                        </button>
                     
                       </article>
                     ))}
@@ -602,12 +600,9 @@ export default function Home() {
                     </div>
 
                     {item!.variants && item!.variants.length > 0 && (
-                      <a
-                           // onClick={handleRestart}
-                            //className="answerButton"
-                             href={item!.variants[0].url}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                      <button
+                       onClick={() => openProductPage(item!.variants![0].url)}
+                      className="answerButton"
                           style={{
                           display: "inline-block",
                           padding: "12px 18px",
@@ -619,7 +614,7 @@ export default function Home() {
                         }}
                       >
                         商品を見る
-                      </a>
+                      </button>
                     )}
                   </article>
                 );
