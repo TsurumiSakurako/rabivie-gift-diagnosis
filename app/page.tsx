@@ -129,7 +129,7 @@ export default function Home() {
             style={{
               padding: "18px 32px",
               width:"100%",
-              maxWidth:"520px"
+              maxWidth:"520px",
               fontSize: "clamp(20px,5vw,22px)",
               borderRadius: "20px",
               border: "none",
@@ -141,7 +141,7 @@ export default function Home() {
 
             }}
           >
-            診断を始める ➡
+            診断を始める
           </button>
 
           <div style={{
