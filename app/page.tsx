@@ -544,7 +544,7 @@ export default function Home() {
                         src={mainImage}
                         alt={item!.name}
                         style={{
-                          width: "80%",
+                          width: "100%",
                           
                           aspectRatio: "1 / 0.85",
                           objectFit: "cover",
