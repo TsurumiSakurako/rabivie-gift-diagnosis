@@ -6,17 +6,17 @@ export const products = [
     variants: [
       {
         name: "ラウンドブーケ｜パステルデイジー",
-        image: "/products/PastelDaisyBouquet.png",
+        image: "/products/PastelDaisyBouquet.jpg",
         url: "https://rabivie.base.shop/items/123150307",
       },
       {
         name: "ラウンドブーケ｜ブルーベリーリリー",
-        image: "/products/BlueBaseLillieBouquet.png",
+        image: "/products/BlueBaseLillieBouquet.jpg",
         url: "https://rabivie.base.shop/items/117313703",
       },
       {
         name: "ラウンドブーケ｜ピンクカーネーション",
-        image: "/products/PinkCarnationBouquet.png",
+        image: "/products/PinkCarnationBouquet.jpg",
         url: "https://rabivie.base.shop/items/136955234",
       },
     ],
@@ -47,7 +47,7 @@ export const products = [
     variants: [
       {
         name: "カジュアルクラッチブーケ｜ミモザブルー",
-        image: "/products/CasualMimosaBlue.png",
+        image: "/products/CasualMimosaBlue.jpg",
         url: "https://rabivie.base.shop/items/136953966",
       },
     ],
@@ -60,7 +60,7 @@ export const products = [
     variants: [
       {
         name: "季節のブーケ ",
-        image: "/products/SeasonBouquet.png",
+        image: "/products/SeasonBouquet.jpg",
         url: "https://rabivie.base.shop/categories/6857718",
       },
 
@@ -74,7 +74,7 @@ export const products = [
     variants: [
       {
         name: "季節のイベントブーケ",
-        image: "/products/ValentineBouquet.png",
+        image: "/products/ValentineBouquet.jpg",
         url: "https://rabivie.base.shop/items/137001782",
       },
     ],
@@ -87,12 +87,12 @@ export const products = [
     variants: [
       {
         name: "ポットアレンジ｜ウォームベージュ",
-        image: "/products/WarmBeigeArrangement.png",
+        image: "/products/WarmBeigeArrangement.jpg",
         url: "https://rabivie.base.shop/items/118639384",
       },
       {
         name: "ポットアレンジ｜ミントフラッシュ",
-        image: "/products/MintFlashArrangement.png",
+        image: "/products/MintFlashArrangement.jpg",
         url: "https://rabivie.base.shop/items/118639645",
       },
     ],
@@ -105,7 +105,7 @@ export const products = [
     variants: [
       {
         name: "季節のアレンジ",
-        image: "/products/SeasonArrangement.png",
+        image: "/products/SeasonArrangement.jpg",
         url: "https://rabivie.base.shop/categories/6857722",
       },
       
@@ -119,22 +119,22 @@ export const products = [
     variants: [
       {
         name: "桜",
-        image: "/products/CherryBlossom.png",
+        image: "/products/CherryBlossom.jpg",
         url: "https://rabivie.base.shop/items/137575170",
       },
       {
         name: "ローズ",
-        image: "/products/Rose.png",
+        image: "/products/Rose.jpg",
         url: "https://rabivie.base.shop/items/115561002",
       },
       {
         name: "ガーベラ",
-        image: "/products/Gerbera.png",
+        image: "/products/Gerbera.jpg",
         url: "https://rabivie.base.shop/items/115561554",
       },
       {
         name: "ネモフィラ",
-        image: "/products/Nemophila.png",
+        image: "/products/Nemophila.jpg",
         url: "https://rabivie.base.shop/items/137576875",
       },
     ],
@@ -147,7 +147,7 @@ export const products = [
     variants: [
       {
         name: "ゲストナンバーフラワー",
-        image: "/products/GuestNumber.png",
+        image: "/products/GuestNumber.jpg",
         url: "https://rabivie.base.shop/items/137576875",
       },
     ],
@@ -160,17 +160,17 @@ export const products = [
     variants: [
       {
         name: "モールケーキ｜ストロベリーショート",
-        image: "/products/StrawberryShortCake.png",
+        image: "/products/StrawberryShortCake.jpg",
         url: "https://rabivie.base.shop/items/137057375",
       },
       {
         name: "モールケーキ｜HBDクッキーチョコレート",
-        image: "/products/HBDCookieChocolateCake.png",
+        image: "/products/HBDCookieChocolateCake.jpg",
         url: "https://rabivie.base.shop/items/137057609",
       },
       {
         name: "モールケーキ｜ブルーパステルドリーム",
-        image: "/products/BluePastelDreamCake.png",
+        image: "/products/BluePastelDreamCake.jpg",
         url: "https://rabivie.base.shop/items/137057725",
       },
     ],
@@ -183,7 +183,7 @@ export const products = [
     variants: [
       {
         name: "ラヴィドールチャーム｜セレクト",
-        image: "/products/DollSelect.png",
+        image: "/products/DollSelect.jpg",
         url: "https://rabivie.base.shop/items/137134620",
       },
     ],
@@ -196,7 +196,7 @@ export const products = [
     variants: [
       {
         name: "ラヴィドールチャーム｜カスタム",
-        image: "/products/DollCustom.png",
+        image: "/products/DollCustom.jpg",
         url: "https://rabivie.base.shop/items/137135608",
       },
     ],
@@ -209,7 +209,7 @@ export const products = [
     variants: [
       {
         name: "月替りチャーム｜チューリップ（4月）",
-        image: "/products/TulipCharm.png",
+        image: "/products/TulipCharm.jpg",
         url: "https://rabivie.base.shop/items/137481944",
       },
     ],
@@ -222,7 +222,7 @@ export const products = [
     variants: [
       {
         name: "ローズチャーム",
-        image: "/products/RoseCharm.png",
+        image: "/products/RoseCharm.jpg",
         url: "https://rabivie.base.shop/items/115517051",
       },
     ],
@@ -235,7 +235,7 @@ export const products = [
     variants: [
       {
         name: "アルファベットチャーム",
-        image: "/products/AlphabetCharm.png",
+        image: "/products/AlphabetCharm.jpg",
         url: "https://rabivie.base.shop/items/137387735",
       },
     ],
@@ -248,7 +248,7 @@ export const products = [
     variants: [
       {
         name: "フルオーダー制作",
-        image: "/products/FullOrder.png",
+        image: "/products/FullOrder.jpg",
         url: "https://rabivie.base.shop/items/136944428",
       },
     ],
