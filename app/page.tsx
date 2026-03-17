@@ -16,7 +16,7 @@ type Variant = {
 type ResultProduct = {
   id: string;
   name: string;
-  price: number;
+  price: string;
   score: number;
   variants?: Variant[];
 };
@@ -296,7 +296,7 @@ const openProductPage = (url: string) => {
             fontWeight: 700,
           }}
         >
-          {top1.price.toLocaleString()}
+          {top1.price}
         </p>
 
         <p
@@ -416,6 +416,8 @@ const openProductPage = (url: string) => {
         </p>
       </div>
     </div>
+
+
 
     {hasMultipleVariants && (
       <section
@@ -577,7 +579,7 @@ const openProductPage = (url: string) => {
                         marginBottom: "12px",
                       }}
                     >
-                      {item!.price.toLocaleString()}
+                      {item!.price}
                     </p>
 
                     <p
