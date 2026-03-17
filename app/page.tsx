@@ -563,9 +563,10 @@ const openProductPage = (url: string) => {
 
                     <h4
                       style={{
-                        fontSize: "24px",
-                        marginBottom: "10px",
-                         lineHeight:1.45,
+                        fontSize: "clamp(32px,8v,38px)",
+                          marginBottom: "10px",
+                          fontWeight: 600,
+                          lineHeight:1.25,
                       }}
                     >
                       {item!.name}
@@ -573,10 +574,10 @@ const openProductPage = (url: string) => {
 
                     <p
                       style={{
-                        color: "#b07f5c",
-                        fontSize: "20px",
-                        fontWeight: 700,
-                        marginBottom: "12px",
+         　　　    fontSize: "clamp(24px,6.5v,30px)",
+          　　　　  marginBottom: "18px",
+          　　　　　  color: "#b07f5c",
+          　　　　　  fontWeight: 700,
                       }}
                     >
                       {item!.price}
