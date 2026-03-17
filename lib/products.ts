@@ -2,7 +2,7 @@ export const products = [
   {
     id: "round_bouquet",
     name: "ラウンドブーケ",
-    price: 3800,
+    price: "3,800円",
     variants: [
       {
         name: "ラウンドブーケ｜パステルデイジー",
@@ -25,7 +25,7 @@ export const products = [
   {
     id: "clutch_bouquet",
     name: "クラッチブーケ",
-    price: 4200,
+    price: "4,200円",
     variants: [
       {
         name: "クラッチブーケ｜イエロースプリング",
@@ -43,7 +43,7 @@ export const products = [
   {
     id: "casual_clutch",
     name: "カジュアルクラッチブーケ",
-    price: 2300,
+    price: "2,300円",
     variants: [
       {
         name: "カジュアルクラッチブーケ｜ミモザブルー",
@@ -56,11 +56,11 @@ export const products = [
   {
     id: "seasonal_bouquet",
     name: "季節のブーケ",
-    price: 3800,
+    price: "3,800円",
     variants: [
       {
         name: "季節のブーケ ",
-        image: "/products/SeasonBouquet.png",
+        image: "/products/c.png",
         url: "https://rabivie.base.shop/categories/6857718",
       },
 
@@ -70,7 +70,7 @@ export const products = [
   {
     id: "seasonal_event_bouquet",
     name: "季節のイベントブーケ",
-    price: 3800,
+    price: "4,800円",
     variants: [
       {
         name: "季節のイベントブーケ",
@@ -83,7 +83,7 @@ export const products = [
   {
     id: "pot_arrangement",
     name: "ポットアレンジ",
-    price: 4200,
+    price: "4,200円",
     variants: [
       {
         name: "ポットアレンジ｜ウォームベージュ",
@@ -101,7 +101,7 @@ export const products = [
   {
     id: "seasonal_arrangement",
     name: "季節のアレンジ",
-    price: 3900,
+    price: "3,900円",
     variants: [
       {
         name: "季節のアレンジ",
@@ -115,7 +115,7 @@ export const products = [
   {
     id: "single_flower",
     name: "シングルフラワー",
-    price: 700,
+    price: "700円",
     variants: [
       {
         name: "桜",
@@ -143,7 +143,7 @@ export const products = [
   {
     id: "celebration_flower",
     name: "セレブレーションフラワー",
-    price: 5000,
+    price: "2,980円/10本",
     variants: [
       {
         name: "ゲストナンバーフラワー",
@@ -156,7 +156,7 @@ export const products = [
   {
     id: "mall_cake",
     name: "モールケーキ",
-    price: 3200,
+    price: "5,500円程度",
     variants: [
       {
         name: "モールケーキ｜ストロベリーショート",
@@ -179,7 +179,7 @@ export const products = [
   {
     id: "rabidoll",
     name: "ラヴィドールチャーム",
-    price: 1400,
+    price: "1,400円",
     variants: [
       {
         name: "ラヴィドールチャーム｜セレクト",
@@ -192,7 +192,7 @@ export const products = [
   {
     id: "order_rabidoll",
     name: "オーダーラヴィドールチャーム",
-    price: 1400,
+    price: "1,900円~",
     variants: [
       {
         name: "ラヴィドールチャーム｜カスタム",
@@ -205,7 +205,7 @@ export const products = [
   {
     id: "monthly_charm",
     name: "月替りチャーム",
-    price: 800,
+    price: "800円",
     variants: [
       {
         name: "月替りチャーム｜チューリップ（4月）",
@@ -218,7 +218,7 @@ export const products = [
   {
     id: "rose_charm",
     name: "ローズチャーム",
-    price: 700,
+    price: "700円",
     variants: [
       {
         name: "ローズチャーム",
@@ -231,7 +231,7 @@ export const products = [
   {
     id: "alphabet_charm",
     name: "アルファベットチャーム",
-    price: 700,
+    price: "700~800円",
     variants: [
       {
         name: "アルファベットチャーム",
