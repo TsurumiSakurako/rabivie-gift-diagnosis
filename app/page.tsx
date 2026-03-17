@@ -296,7 +296,7 @@ const openProductPage = (url: string) => {
             fontWeight: 700,
           }}
         >
-          {top1.price.toLocaleString()}円
+          {top1.price.toLocaleString()}
         </p>
 
         <p
@@ -577,7 +577,7 @@ const openProductPage = (url: string) => {
                         marginBottom: "12px",
                       }}
                     >
-                      {item!.price.toLocaleString()}円
+                      {item!.price.toLocaleString()}
                     </p>
 
                     <p
