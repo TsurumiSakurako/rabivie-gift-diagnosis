@@ -178,8 +178,8 @@ const openProductPage = (url: string) => {
   if (finished) {
     const [top1, top2, top3] = results;
     const top1MainImage = top1?.variants?.[0]?.image ?? "";
-    const top2MainImage = top2?.variants?.[0]?.image;
-    const top3MainImage = top3?.variants?.[0]?.image;
+    const top2MainImage = top2?.variants?.[0]?.image ?? "";
+    const top3MainImage = top3?.variants?.[0]?.image ?? "";
     const top1Variants = top1?.variants ?? [];
     const hasMultipleVariants = top1Variants.length > 1;
     const singleVariant = top1Variants.length === 1 ? top1Variants[0] : null;
