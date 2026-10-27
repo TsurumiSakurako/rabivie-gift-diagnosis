@@ -109,6 +109,12 @@ function recommendationReason(product: GiftProduct, answers: Answers): string {
 
 function productDescription(product: GiftProduct): string {
   switch (product.id) {
+    case "petit-bouquet": return "小さな花束に、さりげない想いをぎゅっと込めて。ちょっとしたお礼やプチギフトにもぴったりな、かわいらしいブーケです。";
+    case "mini-bouquet": return "コンパクトながらも、お花のかわいらしさを楽しめるブーケ。お誕生日やお友達へのプレゼントにもおすすめです。";
+    case "standard-bouquet": return "お花の華やかさと贈りやすさを兼ね備えたブーケ。大切な人への贈り物や、記念日を彩るプレゼントにぴったりです。";
+    case "large-bouquet": return "たっぷりのお花で、特別な想いを華やかに表現。お誕生日や記念日など、忘れられない日の贈り物におすすめです。";
+    case "standard-arrangement": return "お部屋にちょこんと飾って楽しめる、お花のアレンジ。デスクや棚など、いつもの空間にやさしい彩りを添えてくれます。";
+    case "large-arrangement": return "お花の存在感を楽しめる、華やかなアレンジ。お部屋のアクセントや、大切な方への特別な贈り物にもぴったりです。";
     case "handmade-kit": return "自分の手で作品を作る時間も楽しめるキット。完成までの過程も思い出に残せます。";
     case "full-order": return "ご希望のイメージや内容を相談しながら制作するオーダー商品です。";
     case "mole-cake": return "ケーキをモチーフにした、お祝いにもぴったりの華やかな作品です。";
