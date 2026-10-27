@@ -42,3 +42,15 @@
 .rv-hero-art{display:none}
 .rv-hero .rv-eyebrow{letter-spacing:2px}
 @media(max-width:550px){.rv-hero-photo{max-height:200px}.rv-hero-logo{width:min(175px,55%)}}
+/* 診断結果：カラーの丸とスタイル絵文字のサイズ調整 */
+.rv-product .rv-swatch-small {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+.rv-product .rv-style-icon {
+  font-size: 23px;
+  line-height: 1;
+  margin-right: 5px;
+}
