@@ -7,7 +7,7 @@ import type { GiftProduct } from "../lib/productsNew";
 import "./rabivie.css";
 
 type Answers = Record<string, string>;
-type ResultProduct = GiftProduct & { score: number };
+type ResultProduct = ReturnType<typeof calculateResult>[number];
 
 const COLOR_NAMES: Record<string, string> = {
   red: "レッド", pink: "ピンク", orange: "オレンジ", yellow: "イエロー",
@@ -83,21 +83,44 @@ function recommendedOptions(product: GiftProduct, answers: Answers) {
 }
 
 function recommendationReason(product: GiftProduct, answers: Answers): string {
-  if (product.id === "handmade-kit") return "自分の手で作る時間も楽しめる、手作りキットがおすすめです。完成までの過程も思い出に。";
-  if (product.id === "full-order") return "イメージやこだわりを相談しながら、特別なギフトを形にしたい方におすすめです。価格は個別見積もりです。";
+  if (product.id === "handmade-kit") return answers.q1 === "handmade"
+    ? "「自分で作る楽しさ」を選んだあなたに。作る時間も大切にできるキットです。"
+    : "ものづくりを楽しみながら、特別な作品を完成させたい方におすすめです。";
+  if (product.id === "full-order") return "細かな希望を相談し、自分らしいギフトを形にしたい方におすすめです。";
   if (product.category === "charm") {
-    if (answers.q1 === "oshi") return "推し活のおともに。好きなカラーやデザインを取り入れて、持ち歩く楽しさをプラスできます。";
-    return "バッグなどにつけて、いつでも身近に楽しめる小さなギフトです。";
+    if (answers.q1 === "oshi") return "推し活を楽しみたいあなたに。身につけて持ち歩けるチャームがおすすめです。";
+    if (answers.q4 === "portable" || answers.q6 === "easy_carry") return "持ち歩いて楽しみたいという希望に合う、小さなチャームです。";
+    return "日常の中でも気軽に楽しめるギフトを探している方におすすめです。";
   }
   if (product.category === "bouquet") {
-    return answers.q4 === "bouquet"
-      ? "花束を贈りたいという気持ちにぴったり。お好みのカラーとスタイルで、想いが伝わるブーケに。"
-      : "枯れないお花を花束に。飾るたびに贈ったときの気持ちを思い出せるギフトです。";
+    if (answers.q4 === "bouquet") return "「花束がいい」という希望にぴったり。贈る気持ちを形にできるブーケです。";
+    if (answers.q1 === "gift_special" || answers.q1 === "special_event") return "大切な人への贈り物や記念日を彩りたい方におすすめです。";
+    return "お花を飾って楽しみたい方におすすめのブーケです。";
   }
-  if (product.category === "arrangement") return "お部屋に飾って長く楽しめるアレンジ。空間にやさしい彩りを添えます。";
-  if (product.category === "cake") return "お祝いの気持ちを華やかに伝えられる、ケーキモチーフの特別なギフトです。";
-  if (product.category === "singleFlower") return "気持ちを一輪に込めて。花言葉から選ぶ楽しみもある、さりげない贈り物です。";
-  return "あなたの回答をもとに選んだ、おすすめのギフトです。";
+  if (product.category === "arrangement") return answers.q4 === "display" || answers.q6 === "long_display"
+    ? "「お部屋に飾って楽しみたい」という希望に合うアレンジです。"
+    : "お部屋を彩るギフトを探している方におすすめです。";
+  if (product.category === "cake") return answers.q1 === "special_event" || answers.q4 === "special_big"
+    ? "特別なお祝いを印象的に演出したいあなたにおすすめです。"
+    : "かわいらしいモチーフで、贈り物に特別感を添えたい方におすすめです。";
+  if (product.category === "singleFlower") return "さりげない贈り物や、気軽にお花を楽しみたい方におすすめです。";
+  return "あなたの回答に合わせて選んだギフトです。";
+}
+
+function productDescription(product: GiftProduct): string {
+  switch (product.id) {
+    case "handmade-kit": return "自分の手で作品を作る時間も楽しめるキット。完成までの過程も思い出に残せます。";
+    case "full-order": return "ご希望のイメージや内容を相談しながら制作するオーダー商品です。";
+    case "mole-cake": return "ケーキをモチーフにした、お祝いにもぴったりの華やかな作品です。";
+    case "rabi-doll-charm": return "ラビドールをモチーフにしたチャーム。セレクトとカスタムのタイプがあります。";
+    case "alphabet-charm": return "アルファベットを取り入れたチャーム。カラーやデザインを選べます。";
+    case "rose-charm": return "ローズモチーフのチャーム。お好みのカラーを選べます。";
+    case "single-flower": return "一輪のお花を気軽に楽しめるアイテムです。";
+    default:
+      if (product.category === "bouquet") return "お花を束ねたブーケタイプ。カラーやスタイルを選べます。";
+      if (product.category === "arrangement") return "お部屋に飾って楽しめるアレンジタイプ。カラーやスタイルを選べます。";
+      return "RabiVieのハンドメイドギフトです。";
+  }
 }
 
 
@@ -150,7 +173,11 @@ function ProductCard({ product, answers, featured = false, rank }: {
         {featured && <p className="rv-eyebrow">♡ あなたにいちばんおすすめ ♡</p>}
         <h3>{product.name}</h3>
         <p className="rv-price">{formatPrice(product)}</p>
-        <p className="rv-description">{recommendationReason(product, answers)}</p>
+        {product.budgetFit === "over" && <p className="rv-note" style={{ color: "#9a553d", fontWeight: 700 }}>※選択した予算を超える商品です。</p>}
+        {product.budgetFit === "partial" && <p className="rv-note" style={{ color: "#9a553d" }}>※オプションによって選択した予算を超える場合があります。</p>}
+        {product.budgetFit === "unconfirmed" && <p className="rv-note" style={{ color: "#9a553d" }}>※価格が未確定のため、予算内かどうかは商品ページ・お見積もりでご確認ください。</p>}
+        <p className="rv-description"><strong>♡ あなたへのおすすめ理由</strong><br />{recommendationReason(product, answers)}</p>
+        <p className="rv-description"><strong>商品について</strong><br />{productDescription(product)}</p>
         {options.length > 0 && <div className="rv-options">{options.map((option) => (
           <div key={option.name} className="rv-option-line"><span>{option.name}</span><strong>{option.name === "カラー" && <Swatch value={option.value} size="small" />}{option.name === "スタイル" && <span className="rv-style-icon" aria-hidden="true">{STYLE_ICONS[option.value] ?? "🐰"}</span>}{option.value}</strong></div>
         ))}</div>}
