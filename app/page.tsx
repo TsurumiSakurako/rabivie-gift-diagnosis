@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { questions } from "../lib/questions";
 import { calculateResult } from "../lib/calculateResult";
 import type { GiftProduct } from "../lib/productsNew";
@@ -189,11 +189,57 @@ function ProductCard({ product, answers, featured = false, rank }: {
     </article>
   );
 }
+const STORAGE_KEY = "rabivie-diagnosis-progress-v1";
+
 export default function Home() {
   const [started, setStarted] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const [finished, setFinished] = useState(false);
+  const [restored, setRestored] = useState(false);
+
+  // リロード時に保存済みの回答と表示画面を復元する
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const saved = JSON.parse(raw) as {
+          started?: boolean;
+          currentIndex?: number;
+          answers?: Answers;
+          finished?: boolean;
+        };
+        if (saved.answers && typeof saved.answers === "object" && !Array.isArray(saved.answers)) {
+          const validAnswers: Answers = {};
+          for (const question of questions) {
+            const value = saved.answers[question.id];
+            if (question.options.some((option) => option.value === value)) {
+              validAnswers[question.id] = value;
+            }
+          }
+          setAnswers(validAnswers);
+          const allAnswered = questions.every((question) => validAnswers[question.id]);
+          setFinished(Boolean(saved.finished && allAnswered));
+          setStarted(Boolean(saved.started));
+          if (typeof saved.currentIndex === "number" && Number.isInteger(saved.currentIndex)) {
+            setCurrentIndex(Math.max(0, Math.min(questions.length - 1, saved.currentIndex)));
+          }
+        }
+      }
+    } catch {
+      // 保存データが壊れている場合は通常の初期画面から始める
+    }
+    setRestored(true);
+  }, []);
+
+  useEffect(() => {
+    if (!restored) return;
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ started, currentIndex, answers, finished }));
+    } catch {
+      // ストレージが使えない環境でも診断は続けられる
+    }
+  }, [restored, started, currentIndex, answers, finished]);
   const currentQuestion = questions[currentIndex];
   const selected = answers[currentQuestion?.id] || "";
   const results = useMemo<ResultProduct[]>(() => finished ? calculateResult(answers) : [], [answers, finished]);
@@ -204,6 +250,8 @@ export default function Home() {
     else setCurrentIndex((index) => index + 1);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  if (!restored) return null;
+
   return <main className="rv-page">
     <div className="rv-shell">
       <header className="rv-brand"><span>✿</span> RabiVie <span>✿</span><small>GIFT DIAGNOSIS</small></header>
