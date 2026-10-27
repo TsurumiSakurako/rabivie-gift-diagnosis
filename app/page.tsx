@@ -110,12 +110,17 @@ const NAME_TO_COLOR: Record<string, string> = Object.fromEntries(
   Object.entries(COLOR_NAMES).map(([key, value]) => [value, SWATCHES[key]])
 );
 const QUESTION_ICONS: Record<string, Record<string, string>> = {
-  q1: { gift_special:"💐", gift_friend:"🎁", reward_myself:"🌷", oshi:"💗", special_event:"🎂", handmade:"🎀", purpose_any:"✨" },
-  q2: { cute:"🎀", natural:"🌿", elegant:"🕊️", pop:"🌈", cool:"🩵", mood_any:"✨" },
-  q4: { portable:"👜", display:"🏡", bouquet:"💐", special_big:"🎉", unique_custom:"🪄", type_any:"✨" },
-  q5: { under1000:"🎁", "1000_2000":"🎁", "2000_3000":"🎀", "3000_4500":"💝", "4500_6000":"💐", no_limit:"✨" },
-  q6: { design:"🎀", long_display:"🌷", easy_carry:"👜", impact:"✨", originality:"🪄", priority_any:"🤍" },
-  q7: { ready_made:"🎁", semi_custom:"🎨", full_custom:"🪄", leave:"🌸" },
+  q1: { gift_special:"💐", gift_friend:"🎁", reward_myself:"🌼", oshi:"🎀", special_event:"🎂", handmade:"🧵", purpose_any:"🐰" },
+  q2: { cute:"🎀", natural:"🌿", elegant:"👑", pop:"🌈", cool:"❄️", mood_any:"🐰" },
+  q3: { color_any:"🐰" },
+  q4: { portable:"👜", display:"🏠", bouquet:"💐", special_big:"🌟", unique_custom:"🏰", type_any:"🐰" },
+  q5: {},
+  q6: { design:"🎀", long_display:"🥀", easy_carry:"👜", impact:"✨", originality:"👑", priority_any:"🐰" },
+  q7: { ready_made:"🎁", semi_custom:"🎨", full_custom:"💬", leave:"🐰" },
+};
+const STYLE_ICONS: Record<string, string> = {
+  "キュート":"🎀", "ナチュラル":"🌿", "エレガント":"👑",
+  "ポップ":"🌈", "クール":"❄️", "おまかせ":"🐰",
 };
 const CARD_IMAGES: Record<string, string | null> = {
   // 後から選択肢の写真URLを登録できます。例: "q2:cute": "/images/cute.jpg"
@@ -147,7 +152,7 @@ function ProductCard({ product, answers, featured = false, rank }: {
         <p className="rv-price">{formatPrice(product)}</p>
         <p className="rv-description">{recommendationReason(product, answers)}</p>
         {options.length > 0 && <div className="rv-options">{options.map((option) => (
-          <div key={option.name} className="rv-option-line"><span>{option.name}</span><strong>{option.name === "カラー" && <Swatch value={option.value} size="small" />}{option.value}</strong></div>
+          <div key={option.name} className="rv-option-line"><span>{option.name}</span><strong>{option.name === "カラー" && <Swatch value={option.value} size="small" />}{option.name === "スタイル" && <span className="rv-style-icon" aria-hidden="true">{STYLE_ICONS[option.value] ?? "🐰"}</span>}{option.value}</strong></div>
         ))}</div>}
         {product.priceStatus !== "confirmed" && <p className="rv-note">{product.priceStatus === "estimated" ? "※予定価格です。最新情報は商品ページをご確認ください。" : "※価格・制作内容はご相談のうえ決定します。"}</p>}
         <a className="rv-primary rv-product-link" href={targetUrl} target="_blank" rel="noopener noreferrer">{product.resultType === "fullOrder" ? "オーダーについて見る" : "商品を詳しく見る"} <span>›</span></a>
@@ -185,7 +190,7 @@ export default function Home() {
         <p className="rv-tiny">自分へのご褒美や推し活ギフトにも ♡</p>
       </section> : finished ? <section className="rv-results">
         <div className="rv-result-heading"><p className="rv-eyebrow">YOUR GIFT MATCH</p><h1>診断結果 <span>✿</span></h1><p>あなたにぴったりのギフトをご紹介します ♡</p></div>
-        <section className="rv-result-summary"><div className="rv-summary-flower">🌸</div><p className="rv-eyebrow">YOUR COLOR & STYLE</p><h2>あなたにおすすめのイメージ</h2><div className="rv-summary-tags"><div><Swatch value={chooseColor(answers)} /><span>{chooseColor(answers)}</span></div><div><span className="rv-style-icon">🎀</span><span>{chooseStyle(answers)}</span></div></div><p>選んだ色と雰囲気をヒントに、あなたらしいギフトを。</p></section>
+        <section className="rv-result-summary"><p className="rv-eyebrow">YOUR COLOR & STYLE</p><h2>あなたにおすすめのイメージ</h2><div className="rv-summary-tags"><div><Swatch value={chooseColor(answers)} /><span>{chooseColor(answers)}</span></div><div><span className="rv-style-icon">{STYLE_ICONS[chooseStyle(answers)] ?? "🐰"}</span><span>{chooseStyle(answers)}</span></div></div><p>選んだ色と雰囲気をヒントに、あなたらしいギフトを。</p></section>
         {results[0] && <ProductCard product={results[0]} answers={answers} featured rank={1} />}
         {results.length > 1 && <section className="rv-more"><h2>こちらもおすすめ <span>♡</span></h2><div className="rv-more-grid">{results.slice(1).map((product, i) => <ProductCard key={product.id} product={product} answers={answers} rank={i + 2} />)}</div></section>}
         <p className="rv-note rv-price-note">※価格はオプション等で変わる場合があります。購入前に商品ページをご確認ください。</p>
@@ -200,10 +205,10 @@ export default function Home() {
           {currentQuestion.options.map((option) => {
             const isSelected = selected === option.value;
             const swatch = SWATCHES[option.value];
-            const icon = QUESTION_ICONS[currentQuestion.id]?.[option.value] || "✨";
+            const icon = QUESTION_ICONS[currentQuestion.id]?.[option.value];
             const image = CARD_IMAGES[`${currentQuestion.id}:${option.value}`];
             return <button type="button" key={option.value} className={`rv-choice ${isSelected ? "rv-choice-selected" : ""} ${swatch ? "rv-color-choice" : ""}`} onClick={() => setAnswers((previous) => ({ ...previous, [currentQuestion.id]: option.value }))} aria-pressed={isSelected}>
-              {swatch ? <Swatch value={option.value} /> : image ? <span className="rv-choice-photo"><img src={image} alt="" /></span> : <span className="rv-choice-icon" aria-hidden="true">{icon}</span>}
+              {swatch ? <Swatch value={option.value} /> : image ? <span className="rv-choice-photo"><img src={image} alt="" /></span> : icon ? <span className="rv-choice-icon" aria-hidden="true">{icon}</span> : null}
               <span className="rv-choice-label">{option.label}</span>
               <span className="rv-choice-check" aria-hidden="true">{isSelected ? "✓" : ""}</span>
             </button>;
