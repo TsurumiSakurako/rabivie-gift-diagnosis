@@ -1,474 +1,156 @@
-export const scoring = {
-  q1: {
-    gift_special: {
-       round_bouquet: 3,
-      clutch_bouquet: 4,
-      casual_clutch: 1,
-      seasonal_bouquet: 1,
-      seasonal_event_bouquet: 2,
-      pot_arrangement: 2,
-      seasonal_arrangement: 1,
-      single_flower: 3,
-      celebration_flower:0,
-      mall_cake: 3,
-      rabidoll: 1,
-      order_rabidoll: 1,
-      monthly_charm: 0,
-      rose_charm: 1,
-      alphabet_charm: 1,
-      full_order: 3,
 
-    },
-    gift_friend: {
-      round_bouquet: 4,
-      clutch_bouquet: 3,
-      casual_clutch: 3,
-      seasonal_bouquet: 2,
-      seasonal_event_bouquet: 2,
-      pot_arrangement: 4,
-      seasonal_arrangement: 2,
-      single_flower: 4,
-      celebration_flower:0,
-      mall_cake: 4,
-      rabidoll: 3,
-      order_rabidoll: 3,
-      monthly_charm: 2,
-      rose_charm: 3,
-      alphabet_charm: 3,
-      full_order: 1,
-    },
-    reward_myself: {
-      round_bouquet: 1,
-      clutch_bouquet: 1,
-      casual_clutch: 2,
-      seasonal_bouquet: 2,
-      seasonal_event_bouquet: 2,
-      pot_arrangement: 2,
-      seasonal_arrangement: 2,
-      single_flower: 2,
-      mall_cake: 3,
-      rabidoll: 3,
-      order_rabidoll: 3,
-      monthly_charm: 3,
-      rose_charm: 3,
-      alphabet_charm: 3,
-      full_order: 1,
-    },
-    oshi: {
-      round_bouquet: 0,
-      clutch_bouquet: 0,
-      casual_clutch: 1,
-      seasonal_bouquet: 0,
-      seasonal_event_bouquet: 0,
-      pot_arrangement: 0,
-      seasonal_arrangement: 0,
-      single_flower: 0,
-      celebration_flower:0,
-      mall_cake: 1,
-      rabidoll: 5,
-      order_rabidoll: 5,
-      monthly_charm: 0,
-      rose_charm: 3,
-      alphabet_charm: 5,
-      full_order: 1,
-    },
-    special_event: {
-      round_bouquet: 1,
-      clutch_bouquet:1,
-      casual_clutch: 0,
-      seasonal_bouquet: 1,
-      seasonal_event_bouquet: 2,
-      pot_arrangement: 1,
-      seasonal_arrangement: 1,
-      single_flower: 1,
-      celebration_flower:5,
-      mall_cake: 2,
-      rabidoll: 0,
-      order_rabidoll: 0,
-      monthly_charm: 0,
-      rose_charm: 0,
-      alphabet_charm: 0,
-      full_order: 4,
-    },
-  },
+import type { GiftProduct } from "./productsNew";
 
-  q2: {
-    cute: {
-       round_bouquet: 1,
-      clutch_bouquet: 1,
-      casual_clutch: 2,
-      seasonal_bouquet: 2,
-      seasonal_event_bouquet: 2,
-      pot_arrangement: 2,
-      seasonal_arrangement: 1,
-      single_flower: 2,
-      celebration_flower:3,
-      mall_cake: 3,
-      rabidoll: 3,
-      order_rabidoll: 3,
-      monthly_charm: 2,
-      rose_charm: 2,
-      alphabet_charm: 2,
-      full_order: 1,
-    },
-    korean: {
-       round_bouquet: 3,
-      clutch_bouquet: 1,
-      casual_clutch: 1,
-      seasonal_bouquet: 1,
-      seasonal_event_bouquet: 1,
-      pot_arrangement: 2,
-      seasonal_arrangement: 1,
-      single_flower: 2,
-      celebration_flower:2,
-      mall_cake: 2,
-      rabidoll: 3,
-      order_rabidoll: 3,
-      monthly_charm: 1,
-      rose_charm: 1,
-      alphabet_charm: 2,
-      full_order: 1,
-    },
-    stylish: {
-       round_bouquet: 2,
-      clutch_bouquet: 3,
-      casual_clutch: 1,
-      seasonal_bouquet: 1,
-      seasonal_event_bouquet: 1,
-      pot_arrangement: 3,
-      seasonal_arrangement: 1,
-      single_flower: 2,
-      celebration_flower:2,
-      mall_cake: 1,
-      rabidoll: 0,
-      order_rabidoll: 0,
-      monthly_charm: 2,
-      rose_charm: 3,
-      alphabet_charm: 1,
-      full_order: 1,
-    },
-    seasonal: {
-       round_bouquet: 0,
-      clutch_bouquet: 2,
-      casual_clutch: 2,
-      seasonal_bouquet: 5,
-      seasonal_event_bouquet: 5,
-      pot_arrangement: 0,
-      seasonal_arrangement: 5,
-      single_flower: 2,
-      celebration_flower:0,
-      mall_cake: 0,
-      rabidoll: 0,
-      order_rabidoll: 0,
-      monthly_charm: 5,
-      rose_charm: 1,
-      alphabet_charm: 0,
-      full_order: 1,
-    },
-  },
+type Answers = Record<string, string>;
 
-  q3: {
-    portable: {
-      round_bouquet: 0,
-      clutch_bouquet: 0,
-      casual_clutch: 2,
-      seasonal_bouquet: 0,
-      seasonal_event_bouquet: 0,
-      pot_arrangement: 0,
-      seasonal_arrangement: 0,
-      single_flower: 2,
-      celebration_flower:0,
-      mall_cake: 0,
-      rabidoll: 3,
-      order_rabidoll: 3,
-      monthly_charm: 3,
-      rose_charm: 3,
-      alphabet_charm: 3,
-      full_order: 1,
-    },
-    display: {
-       round_bouquet: 3,
-      clutch_bouquet: 1,
-      casual_clutch: 2,
-      seasonal_bouquet: 1,
-      seasonal_event_bouquet: 1,
-      pot_arrangement: 4,
-      seasonal_arrangement: 4,
-      single_flower: 2,
-      celebration_flower:0,
-      mall_cake: 4,
-      rabidoll: 0,
-      order_rabidoll: 0,
-      monthly_charm: 1,
-      rose_charm: 1,
-      alphabet_charm: 0,
-      full_order: 1,
-    },
-    bouquet: {
-       round_bouquet: 3,
-      clutch_bouquet: 3,
-      casual_clutch: 3,
-      seasonal_bouquet: 3,
-      seasonal_event_bouquet: 3,
-      pot_arrangement: 3,
-      seasonal_arrangement: 3,
-      single_flower: 1,
-      celebration_flower:0,
-      mall_cake: 0,
-      rabidoll: 0,
-      order_rabidoll: 0,
-      monthly_charm: 0,
-      rose_charm: 0,
-      alphabet_charm: 0,
-      full_order: 1,
-    },
-    special_big: {
-       round_bouquet: 1,
-      clutch_bouquet: 1,
-      casual_clutch: 0,
-      seasonal_bouquet: 2,
-      seasonal_event_bouquet: 2,
-      pot_arrangement: 1,
-      seasonal_arrangement: 1,
-      single_flower: 0,
-      celebration_flower:5,
-      mall_cake: 2,
-      rabidoll: 0,
-      order_rabidoll: 0,
-      monthly_charm: 1,
-      rose_charm: 0,
-      alphabet_charm: 2,
-      full_order: 4,
-    },
-  },
+export function scoreProduct(
+  product: GiftProduct,
+  answers: Answers
+): number {
+  let score = 0;
 
-  q4: {
-    under1000: {
-      round_bouquet: -3,
-      clutch_bouquet: -3,
-      casual_clutch: -2,
-      seasonal_bouquet: -3,
-      seasonal_event_bouquet: -4,
-      pot_arrangement: -3,
-      seasonal_arrangement: -3,
-      single_flower: 0,
-      celebration_flower: -2,
-      mall_cake: -4,
-      monthly_charm: 0,
-      rabidoll: -1,
-      order_rabidoll: -1,
-      rose_charm: 0,
-      alphabet_charm: 0,
-      full_order: 0,
-    },
-    "1000_2000": {
-      round_bouquet: -2,
-      clutch_bouquet: -2,
-      casual_clutch: -1,
-      seasonal_bouquet: -2,
-      seasonal_event_bouquet: -2,
-      pot_arrangement: -3,
-      seasonal_arrangement: -2,
-      single_flower: -1,
-      celebration_flower: -1,
-      mall_cake: -3,
-      rabidoll: 0,
-      order_rabidoll: 0,
-      monthly_charm: -1,
-      rose_charm: -1,
-      alphabet_charm: -1,
-      full_order: 0,
-    },
-    "2000_3000": {
-      round_bouquet: -1,
-      clutch_bouquet: -1,
-      casual_clutch: 0,
-      seasonal_bouquet: -1,
-      seasonal_event_bouquet: -2,
-      pot_arrangement: -1,
-      seasonal_arrangement: -1,
-      single_flower: -2,
-      celebration_flower: 0,
-      mall_cake: -2,
-      rabidoll: -1,
-      order_rabidoll: -1,
-      monthly_charm: -2,
-      rose_charm: -2,
-      alphabet_charm: -2,
-      full_order: 0,
-    },
-    "3000_4500": {
-      round_bouquet: 0,
-      clutch_bouquet: 0,
-      casual_clutch: -1,
-      seasonal_bouquet: 0,
-       seasonal_event_bouquet: -1,
-      pot_arrangement: 0,
-      seasonal_arrangement: 0,
-      single_flower: -3,
-      celebration_flower: -1,
-      mall_cake: -1,
-      rabidoll: -2,
-      order_rabidoll: -2,
-      monthly_charm: -3,
-      rose_charm: -3,
-      alphabet_charm: -3,
-      full_order: 0,
-    },
-    no_limit: {
-      round_bouquet: 0,
-      clutch_bouquet: 0,
-      casual_clutch: 0,
-      seasonal_bouquet: 0,
-      seasonal_event_bouquet: 1,
-      pot_arrangement: 0,
-      seasonal_arrangement: 0,
-      single_flower: 0,
-      celebration_flower: 1,
-      mall_cake: 3,
-      rabidoll: 0,
-      order_rabidoll: 0,
-      monthly_charm: 0,
-      rose_charm: 0,
-      alphabet_charm: 0,
-      full_order: 4,
-    },
-  },
+  const { q1, q4, q6, q7 } = answers;
+  const { id, category } = product;
 
-  q5: {
-    birthday: {
-      round_bouquet: 3,
-      clutch_bouquet: 3,
-      casual_clutch: 1,
-      seasonal_bouquet: 2,
-      seasonal_event_bouquet: 2,
-      pot_arrangement: 3,
-      seasonal_arrangement: 2,
-      single_flower: 1,
-      celebration_flower: 0,
-      mall_cake: 3,
-      rabidoll: 1,
-      order_rabidoll: 1,
-      monthly_charm: 1,
-      rose_charm: 2,
-      alphabet_charm: 2,
-      full_order: 3,
-    },
-    small_celebration: {
-       round_bouquet: 1,
-      clutch_bouquet: 1,
-      casual_clutch: 5,
-      seasonal_bouquet: 1,
-      seasonal_event_bouquet: 1,
-      pot_arrangement: 1,
-      seasonal_arrangement: 1,
-      single_flower: 5,
-      celebration_flower: 0,
-      mall_cake: 0,
-      rabidoll: 3,
-      order_rabidoll: 3,
-      monthly_charm: 3,
-      rose_charm: 3,
-      alphabet_charm: 3,
-      full_order: 1,
-    },
+  // Q1：お花を選ぶ目的
+  if (q1 === "gift_special") {
+    if (category === "bouquet") score += 4;
+    if (category === "arrangement") score += 4;
+    if (category === "cake") score += 3;
+    if (category === "singleFlower") score += 2;
+  }
 
+  if (q1 === "gift_friend") {
+    if (id === "petit-bouquet") score += 5;
+    if (id === "mini-bouquet") score += 4;
+    if (category === "charm") score += 4;
+    if (category === "singleFlower") score += 4;
+  }
 
+  if (q1 === "reward_myself") {
+    if (category === "charm") score += 4;
+    if (category === "arrangement") score += 3;
+    if (category === "singleFlower") score += 3;
+  }
 
+  if (q1 === "oshi") {
+    if (id === "alphabet-charm") score += 7;
+    if (id === "rabi-doll-charm") score += 7;
+    if (id === "rose-charm") score += 5;
+    if (category === "bouquet") score += 2;
+  }
 
+  if (q1 === "special_event") {
+    if (category === "bouquet") score += 5;
+    if (category === "arrangement") score += 5;
+    if (category === "cake") score += 6;
+    if (id === "full-order") score += 3;
+  }
 
-    season_event: {
-      round_bouquet: 0,
-      clutch_bouquet: 0,
-      casual_clutch: 0,
-      seasonal_bouquet: 5,
-      seasonal_event_bouquet: 5,
-      pot_arrangement: 0,
-      seasonal_arrangement: 5,
-      single_flower: 1,
-      celebration_flower: 0,
-      mall_cake: 0,
-      rabidoll: 0,
-      order_rabidoll: 0,
-      monthly_charm: 5,
-      rose_charm: 1,
-      alphabet_charm: 0,
-      full_order: 1,
-    },
-    wedding: {
-           round_bouquet: 1,
-      clutch_bouquet: 2,
-      casual_clutch: 0,
-      seasonal_bouquet:1,
-      seasonal_event_bouquet: 2,
-      pot_arrangement: 2,
-      seasonal_arrangement: 2,
-      single_flower: 0,
-      celebration_flower: 5,
-      mall_cake: 1,
-      rabidoll: 0,
-      order_rabidoll: 0,
-      monthly_charm: 0,
-      rose_charm: 0,
-      alphabet_charm: 0,
-      full_order: 4,
-    },
-  },
+  if (q1 === "handmade") {
+    if (id === "handmade-kit") score += 20;
+  }
 
-  q6: {
-    leave: {
-            round_bouquet: 1,
-      clutch_bouquet: 1,
-      casual_clutch: 1,
-      seasonal_bouquet: 3,
-      seasonal_event_bouquet: 3,
-      pot_arrangement: 1,
-      seasonal_arrangement: 3,
-      single_flower: 3,
-      celebration_flower: 3,
-      mall_cake: 1,
-      rabidoll: 3,
-      order_rabidoll: -3,
-      monthly_charm: 3,
-      rose_charm: 1,
-      alphabet_charm: 1,
-      full_order: -5,
-    },
-    semi_custom: {
-            round_bouquet: 3,
-      clutch_bouquet: 3,
-      casual_clutch:3,
-      seasonal_bouquet: 0,
-      seasonal_event_bouquet: 0,
-      pot_arrangement: 3,
-      seasonal_arrangement: 0,
-      single_flower: 3,
-      celebration_flower: 3,
-      mall_cake: 3,
-      rabidoll: 3,
-      order_rabidoll: 3,
-      monthly_charm: 0,
-      rose_charm: 3,
-      alphabet_charm: 3,
-      full_order: -5,
-    },
-    full_custom: {
-      round_bouquet: 0,
-      clutch_bouquet: 0,
-      casual_clutch: 0,
-      seasonal_bouquet: 0,
-      seasonal_event_bouquet: 1,
-      pot_arrangement: 0,
-      seasonal_arrangement: 0,
-      single_flower: 0,
-      celebration_flower: 5,
-      mall_cake: 3,
-      rabidoll: 0,
-      order_rabidoll: 5,
-      monthly_charm: 0,
-      rose_charm: 1,
-      alphabet_charm: 3,
-      full_order: 5,
-    },
-  },
-} as const;
+  // Q4：欲しいギフトのタイプ（重要）
+  if (q4 === "portable") {
+    if (category === "charm") score += 12;
+    if (category === "singleFlower") score += 2;
+  }
+
+  if (q4 === "display") {
+    if (category === "arrangement") score += 12;
+    if (category === "bouquet") score += 7;
+    if (category === "cake") score += 9;
+    if (category === "singleFlower") score += 5;
+  }
+
+  if (q4 === "bouquet") {
+    if (category === "bouquet") score += 14;
+  }
+
+  if (q4 === "special_big") {
+    if (id === "large-bouquet") score += 14;
+    if (id === "large-arrangement") score += 14;
+    if (id === "mole-cake") score += 12;
+    if (id === "standard-bouquet") score += 5;
+    if (id === "standard-arrangement") score += 5;
+  }
+
+  if (q4 === "unique_custom") {
+    if (id === "full-order") score += 14;
+    if (category === "bouquet") score += 6;
+    if (category === "arrangement") score += 6;
+    if (id === "rabi-doll-charm") score += 5;
+  }
+
+  // Q6：選ぶときに大切にしたいこと
+  if (q6 === "design") {
+    if (category === "bouquet") score += 3;
+    if (category === "cake") score += 4;
+    if (category === "charm") score += 3;
+  }
+
+  if (q6 === "long_display") {
+    if (category === "arrangement") score += 7;
+    if (category === "bouquet") score += 4;
+    if (category === "cake") score += 5;
+    if (category === "singleFlower") score += 3;
+  }
+
+  if (q6 === "easy_carry") {
+    if (category === "charm") score += 8;
+  }
+
+  if (q6 === "impact") {
+    if (id === "large-bouquet") score += 7;
+    if (id === "large-arrangement") score += 7;
+    if (id === "mole-cake") score += 7;
+  }
+
+  if (q6 === "originality") {
+    if (id === "full-order") score += 8;
+    if (category === "bouquet") score += 4;
+    if (category === "arrangement") score += 4;
+    if (id === "rabi-doll-charm") score += 5;
+    if (id === "alphabet-charm") score += 4;
+  }
+
+  // Q7：ギフトの選び方
+  if (q7 === "ready_made") {
+    if (id === "rabi-doll-charm") score += 5;
+    if (id === "mole-cake") score += 3;
+    if (id === "single-flower") score += 3;
+    if (id === "full-order") score -= 12;
+  }
+
+  if (q7 === "semi_custom") {
+    if (category === "bouquet") score += 6;
+    if (category === "arrangement") score += 6;
+    if (id === "alphabet-charm") score += 5;
+    if (id === "rose-charm") score += 4;
+    if (id === "rabi-doll-charm") score += 5;
+  }
+
+  if (q7 === "full_custom") {
+    if (id === "full-order") score += 18;
+    if (category === "bouquet") score += 4;
+    if (category === "arrangement") score += 4;
+    if (id === "rabi-doll-charm") score += 5;
+  }
+
+  // 手作りキットは、作りたい人に優先して提案
+  if (id === "handmade-kit" && q1 !== "handmade") {
+    score -= 20;
+  }
+
+  // フルオーダーは、強い希望がある場合に優先
+  if (
+    id === "full-order" &&
+    q7 !== "full_custom" &&
+    q4 !== "unique_custom"
+  ) {
+    score -= 20;
+  }
+
+  return score;
+}

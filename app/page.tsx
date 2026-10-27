@@ -3,55 +3,198 @@
 import { useMemo, useState } from "react";
 import { questions } from "../lib/questions";
 import { calculateResult } from "../lib/calculateResult";
-import { productDescriptions } from "../lib/productDescriptions";
+import type { GiftProduct } from "../lib/productsNew";
 
 type Answers = Record<string, string>;
+type ResultProduct = GiftProduct & { score: number };
 
-type Variant = {
-  name: string;
-  image: string;
-  url: string;
+const COLOR_NAMES: Record<string, string> = {
+  red: "レッド", pink: "ピンク", orange: "オレンジ", yellow: "イエロー",
+  beige: "ベージュ", green: "グリーン", blue: "ブルー", purple: "パープル",
+  white: "ホワイト", black: "ブラック",
+};
+const STYLE_NAMES: Record<string, string> = {
+  cute: "キュート", natural: "ナチュラル", elegant: "エレガント",
+  pop: "ポップ", cool: "クール",
 };
 
-type ResultProduct = {
-  id: string;
-  name: string;
-  price: string;
-  score: number;
-  variants?: Variant[];
+function chooseColor(answers: Answers): string {
+  if (COLOR_NAMES[answers.q3]) return COLOR_NAMES[answers.q3];
+  if (answers.q1 === "oshi") return "ブルー";
+  if (answers.q2 === "cool") return "ブルー";
+  if (answers.q2 === "natural") return "ベージュ";
+  if (answers.q2 === "pop") return "イエロー";
+  if (answers.q2 === "elegant") return "ホワイト";
+  return "ピンク";
+}
+
+function chooseStyle(answers: Answers): string {
+  if (STYLE_NAMES[answers.q2]) return STYLE_NAMES[answers.q2];
+  if (answers.q1 === "oshi") return "ポップ";
+  if (answers.q6 === "impact") return "エレガント";
+  if (answers.q6 === "long_display") return "ナチュラル";
+  if (["blue", "black"].includes(answers.q3)) return "クール";
+  return "キュート";
+}
+
+function formatPrice(product: GiftProduct): string {
+  if (product.priceStatus === "quote") return "個別見積もり";
+  if (product.priceMin == null || product.priceMax == null) return "価格は商品ページでご確認ください";
+  const min = `¥${product.priceMin.toLocaleString("ja-JP")}`;
+  const max = `¥${product.priceMax.toLocaleString("ja-JP")}`;
+  const range = min === max ? min : `${min}〜${max}`;
+  return product.priceStatus === "estimated" ? `${range}（予定価格・未確定）` : range;
+}
+
+function recommendedVariant(product: GiftProduct, answers: Answers) {
+  if (!product.variants?.length) return null;
+  if (product.id === "rabi-doll-charm") {
+    return product.variants.find((v) =>
+      v.id === (answers.q7 === "ready_made" || answers.q7 === "leave" ? "select" : "custom")
+    ) ?? product.variants[0];
+  }
+  if (product.id === "mole-cake") {
+    const chocolate = answers.q2 === "cool" || answers.q3 === "black" || answers.q3 === "beige";
+    return product.variants.find((v) => v.id === (chocolate ? "chocolate" : "shortcake")) ?? product.variants[0];
+  }
+  return product.variants[0];
+}
+
+function recommendedOptions(product: GiftProduct, answers: Answers) {
+  const color = chooseColor(answers);
+  const style = chooseStyle(answers);
+  const options: { name: string; value: string }[] = [];
+  // BASEの商品オプションに存在する場合のみ表示する
+  for (const option of product.options) {
+    if (option.name === "カラー" && option.values.includes(color)) {
+      options.push({ name: "カラー", value: color });
+    } else if (option.name === "スタイル" && option.values.includes(style)) {
+      options.push({ name: "スタイル", value: style });
+    } else if (option.name === "デザイン") {
+      const design = answers.q7 === "ready_made" ? "ノーマル" :
+        answers.q2 === "pop" ? "グリッター&リボン" : "リボン";
+      if (option.values.includes(design)) options.push({ name: "デザイン", value: design });
+    }
+  }
+  const variant = recommendedVariant(product, answers);
+  if (variant) options.push({ name: "おすすめタイプ", value: variant.label });
+  return options;
+}
+
+function recommendationReason(product: GiftProduct, answers: Answers): string {
+  if (product.id === "handmade-kit") return "自分の手で作る時間も楽しめる、手作りキットがおすすめです。完成までの過程も思い出に。";
+  if (product.id === "full-order") return "イメージやこだわりを相談しながら、特別なギフトを形にしたい方におすすめです。価格は個別見積もりです。";
+  if (product.category === "charm") {
+    if (answers.q1 === "oshi") return "推し活のおともに。好きなカラーやデザインを取り入れて、持ち歩く楽しさをプラスできます。";
+    return "バッグなどにつけて、いつでも身近に楽しめる小さなギフトです。";
+  }
+  if (product.category === "bouquet") {
+    return answers.q4 === "bouquet"
+      ? "花束を贈りたいという気持ちにぴったり。お好みのカラーとスタイルで、想いが伝わるブーケに。"
+      : "枯れないお花を花束に。飾るたびに贈ったときの気持ちを思い出せるギフトです。";
+  }
+  if (product.category === "arrangement") return "お部屋に飾って長く楽しめるアレンジ。空間にやさしい彩りを添えます。";
+  if (product.category === "cake") return "お祝いの気持ちを華やかに伝えられる、ケーキモチーフの特別なギフトです。";
+  if (product.category === "singleFlower") return "気持ちを一輪に込めて。花言葉から選ぶ楽しみもある、さりげない贈り物です。";
+  return "あなたの回答をもとに選んだ、おすすめのギフトです。";
+}
+
+const colors = {
+  background: "#f5efe6", surface: "#fffaf6", ink: "#5a3a3a",
+  muted: "#80695e", accent: "#b98d73", border: "#e4d3c6",
 };
+
+const buttonStyle: React.CSSProperties = {
+  display: "inline-block", padding: "14px 22px", borderRadius: 16,
+  border: "none", background: colors.accent, color: "white",
+  fontWeight: 700, fontSize: 16, cursor: "pointer", textDecoration: "none",
+  textAlign: "center", lineHeight: 1.6,
+};
+
+function ProductCard({ product, answers, featured = false }: {
+  product: ResultProduct; answers: Answers; featured?: boolean;
+}) {
+  const variant = recommendedVariant(product, answers);
+  const options = recommendedOptions(product, answers);
+  const targetUrl = variant?.url ?? product.url;
+  const targetImage = variant?.image || product.image;
+  const needsBudgetNotice = product.priceStatus === "estimated" || product.priceStatus === "quote";
+
+  return (
+    <article className={`gift-product-card${featured ? " gift-product-featured" : ""}`}>
+      {featured && <p style={{ color: colors.accent, fontWeight: 700, marginBottom: 16 }}>♡ あなたにいちばんおすすめ ♡</p>}
+      <div className="gift-product-layout">
+       {targetImage && (
+          <div className="gift-product-image-wrap">
+            <img
+              src={targetImage}
+  alt={`${product.name}の表紙写真`}
+  className="gift-product-image"
+            />
+          </div>
+        )}
+        <div className="gift-product-info">
+          <h2 style={{ fontSize: featured ? "clamp(24px, 4vw, 32px)" : "clamp(21px, 3vw, 26px)",
+            lineHeight: 1.4, marginBottom: 8 }}>{product.name}</h2>
+          <p style={{ fontSize: featured ? 23 : 19, fontWeight: 700, color: colors.accent, marginBottom: 14 }}>{formatPrice(product)}</p>
+          {options.length > 0 && (
+            <div style={{ background: "#f6ede7", padding: 16, borderRadius: 16, marginBottom: 16 }}>
+              {options.map((option) => (
+                <div key={option.name} style={{ display: "flex", justifyContent: "space-between", gap: 12,
+                  padding: "7px 0", borderBottom: `1px solid ${colors.border}` }}>
+                  <span style={{ color: colors.muted }}>{option.name}</span>
+                  <strong style={{ textAlign: "right" }}>{option.value}</strong>
+                </div>
+              ))}
+            </div>
+          )}
+          <p style={{ lineHeight: 1.9, color: colors.muted, marginBottom: 18 }}>{recommendationReason(product, answers)}</p>
+          {needsBudgetNotice && <p style={{ color: colors.muted, fontSize: 13, marginBottom: 12 }}>
+            {product.priceStatus === "estimated" ? "※価格は未確定です。最新情報は商品ページをご確認ください。" : "※価格・制作内容はご相談のうえ決定します。"}
+          </p>}
+          <a href={targetUrl} target="_blank" rel="noopener noreferrer" style={buttonStyle}>
+            {product.resultType === "fullOrder" ? "オーダーについて見る" : "商品を見る"}
+          </a>
+          {product.id === "single-flower" && (
+            <p style={{ fontSize: 13, color: colors.muted, marginTop: 12 }}>
+              花言葉診断は準備中です。まずはシングルフラワーの商品一覧をご覧ください。
+            </p>
+          )}
+          {product.variants && product.variants.length > 1 && (
+            <div style={{ marginTop: 16 }}>
+              <p style={{ fontSize: 14, fontWeight: 700, marginBottom: 8 }}>ほかのタイプも見る</p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                {product.variants.filter((v) => v.id !== variant?.id).map((v) => (
+                  <a key={v.id} href={v.url} target="_blank" rel="noopener noreferrer"
+                    style={{ color: colors.ink, border: `1px solid ${colors.border}`, borderRadius: 12,
+                      padding: "9px 12px", textDecoration: "none", fontSize: 14 }}>{v.label}</a>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </article>
+  );
+}
 
 export default function Home() {
   const [started, setStarted] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const [finished, setFinished] = useState(false);
-
   const currentQuestion = questions[currentIndex];
 
-  const results = useMemo(() => {
+  const results = useMemo<ResultProduct[]>(() => {
     if (!finished) return [];
-    return calculateResult(answers) as ResultProduct[];
+    return calculateResult(answers);
   }, [answers, finished]);
 
   const handleSelect = (value: string) => {
     if (!currentQuestion) return;
-
-    const nextAnswers = {
-      ...answers,
-      [currentQuestion.id]: value,
-    };
-
-    setAnswers(nextAnswers);
-
-    const isLastQuestion = currentIndex === questions.length - 1;
-
-    if (isLastQuestion) {
-      setFinished(true);
-      return;
-    }
-
-    setCurrentIndex((prev) => prev + 1);
+    setAnswers((previous) => ({ ...previous, [currentQuestion.id]: value }));
+    if (currentIndex === questions.length - 1) setFinished(true);
+    else setCurrentIndex((previous) => previous + 1);
   };
 
   const handleRestart = () => {
@@ -61,697 +204,140 @@ export default function Home() {
     setFinished(false);
   };
 
-  const handleBack = () => {
-  if (currentIndex === 0) return;
-
-  setCurrentIndex((prev) => prev - 1);
-};
-
-const openProductPage = (url: string) => {
-  window.location.href = url;
-};
+  const shell: React.CSSProperties = {
+    minHeight: "100vh", background: colors.background, color: colors.ink,
+    padding: "36px 20px 70px", fontFamily: "'Noto Sans JP', sans-serif",
+  };
 
   if (!started) {
     return (
-      <main
-        style={{
-          minHeight: "100vh",
-          backgroundColor:"#f5efe6",
-          color: "#5a3a3a",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "24px",
-          fontFamily:"'Noto Sans JP', sans-serif",
-        }}
-      >
-        <div
-          style={{
-            width: "100%",
-            maxWidth: "720px",
-            textAlign: "center",
-          }}
-        > <h1
-            style={{
-              fontSize: "clamp(16px,4vw,22px)",
-              fontWeight: 700,
-              marginBottom: "18px",
-          color:"#9c7b66",
-          letterSpacing:"0.5px",
-            }}
-          >
-            Gift Finder
+      <main style={{ ...shell, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ maxWidth: 650, width: "100%", textAlign: "center" }}>
+          <p style={{ color: colors.accent, fontWeight: 700, letterSpacing: 2, marginBottom: 16 }}>Gift Finder</p>
+          <h1 style={{ fontSize: "clamp(38px, 10vw, 56px)", lineHeight: 1.25, marginBottom: 20 }}>
+            RabiVie<br /><span style={{ fontSize: ".65em" }}>プレゼント診断</span>
           </h1>
-
-          <h1
-            style={{
-              fontSize: "clamp(42px,11vw,56px)",
-              fontWeight: 700,
-              marginBottom: "24px",
-              letterSpacing:"0.5px",
-              lineHeight:1.25,
-            }}
-          >
-            RabiVie <br/>
-            <span style={{fontSize:"0.75em"}}>
-              プレゼント診断
-              </span>
-          </h1>
-
-          <p
-            style={{
-              fontSize: "clamp(17px,4.8vw,18px)",
-              lineHeight: 1.9,
-              color: "#5a3a3a",
-              marginBottom: "42px",
-            }}
-          >
-            ３分で終わる６つの質問で
-            <br />
-            あなたにぴったりのギフトが見つかります
+          <p style={{ lineHeight: 2, fontSize: 18, marginBottom: 34 }}>
+            3分で終わる7つの質問で<br />あなたにぴったりのギフトが見つかります
           </p>
-
-          <button 
-            onClick={() => setStarted(true)}
-            className="answerButton"
-            style={{
-              padding: "18px 20px",
-              width:"100%",
-              maxWidth:"500px",
-              fontSize: "22px",
-              borderRadius: "24px",
-              border: "none",
-              backgroundColor:"#c9a27e",
-              color: "#fff",
-              cursor: "pointer",
-              fontWeight: 700,
-              transition:"0.2s",
-              boxShadow:"0 6px 18px rgba(0,0,0,0.58)",
-              marginBottom:"32px",
-
-            }}
-          >
+          <button onClick={() => setStarted(true)} className="answerButton"
+            style={{ ...buttonStyle, width: "100%", maxWidth: 460, padding: "18px 24px", fontSize: 20 }}>
             診断を始める
           </button>
-
-          <div style={{
-          marginTop:"56px",
-          fontSize:"clamp(16px,4.3vw,18px)",
-          color:"#7a5a5a",
-          lineHeight:1.9,
-          textAlign:"center",
-          }}
-         >
-         <strong> \ こんな人におすすめ /</strong>
-          <br/>
-          ・友達へのプレゼントを探している<br/>
-          
-          ・推し活ギフトを探している<br/>
-         
-          ・自分へのご褒美を探している
-          </div>
+          <p style={{ lineHeight: 2.2, color: colors.muted, marginTop: 45 }}>
+            こんな人におすすめ<br />友達へのプレゼントを探している<br />推し活ギフトを探している<br />自分へのご褒美を探している
+          </p>
         </div>
       </main>
     );
   }
 
   if (finished) {
-    const [top1, top2, top3] = results;
-    const top1MainImage = top1?.variants?.[0]?.image ?? "";
-    const top2MainImage = top2?.variants?.[0]?.image ?? "";
-    const top3MainImage = top3?.variants?.[0]?.image ?? "";
-    const top1Variants = top1?.variants ?? [];
-    const hasMultipleVariants = top1Variants.length > 1;
-    const singleVariant = top1Variants.length === 1 ? top1Variants[0] : null;
-
     return (
-      <main
-        style={{
-          minHeight: "100vh",
-          backgroundColor:"#f5efe6",
-          color: "#5a3a3a",
-          padding: "32px 20px 60px",
-          fontFamily:"'Noto Sans JP', sans-serif",
-        }}
-      >
-        <div
-          style={{
-            width: "100%",
-            maxWidth: "1080px",
-            margin: "0 auto",
-          }}
-        >
-          <h1
-            style={{
-              fontSize: "clamp(48px,10v,54px)",
-              textAlign: "center",
-              marginBottom: "12px",
-              lineHeight:1.2,
-              color: "#5a3a3a",
-            }}
-          >
-            診断結果
-          </h1>
-
-          <p
-            style={{
-              textAlign: "center",
-              color: "#7a5a5a",
-              marginBottom: "28px",
-              fontSize: "clamp(22px,4.8v,24px)",
-              lineHeight:1.7,
-            }}
-          >
-            あなたに１番おすすめの商品はこちらです
-          </p>
-
-{top1 && (
-  <section
-    style={{
-      backgroundColor: "#f8f6f2",
-      borderRadius: "24px",
-      padding: "32px",
-      marginBottom: "12px",
-      boxShadow: "0 10px 30px rgba(0,0,0,0.05)",
-      border: "1px solid #d8c9bb",
-    }}
-  >
-    <div
-      style={{
-        display: "inline-block",
-        fontSize: "22px",
-        backgroundColor: "#c9a27e",
-        color: "#fff",
-        padding: "8px 18px",
-        borderRadius: "999px",
-        marginBottom: "12px",
-        fontWeight: 700,
-      }}
-    >
-      あなたにおすすめ
-    </div>
-
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-        gap: "28px",
-        alignItems: "start",
-      }}
-    >
-      <div>
-        {top1MainImage && (
-          <img
-            src={top1MainImage}
-            alt={top1.name}
-            style={{
-              width: "100%",
-              maxWidth: "470px",
-              aspectRatio: "1 / 1",
-              objectFit: "cover",
-              borderRadius: "20px",
-              border: "1px solid #222",
-            }}
-          />
-        )}
-      </div>
-
-      <div>
-        <h2
-          style={{
-            fontSize: "clamp(32px,8v,38px)",
-            marginBottom: "10px",
-            fontWeight: 600,
-            lineHeight:1.25,
-          }}
-        >
-          {top1.name}
-        </h2>
-
-        <p
-          style={{
-            fontSize: "clamp(24px,6.5v,30px)",
-            marginBottom: "18px",
-            color: "#b07f5c",
-            fontWeight: 700,
-          }}
-        >
-          {top1.price}
-        </p>
-
-        <p
-          style={{
-            lineHeight: 1.9,
-            color: "#7a5a5a",
-            marginBottom: "16px",
-            fontSize: "19px",
-          }}
-        >
-          {productDescriptions[top1.id]}
-        </p>
-
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "12px",
-            marginTop: "8px",
-            marginBottom: "8px",
-          }}
-        >
-          {singleVariant && (  //1種類だけ
-            <button
-               onClick={() => openProductPage(singleVariant.url)}
-                className="answerButton"
-                style={{
-                display: "inline-block",
-                padding: "14px 24px",
-                fontSize: "16px",
-                borderRadius: "12px",
-                border: "none",
-                backgroundColor: "#c9a27e",
-                color: "#fff",
-                textDecoration: "none",
-                cursor: "pointer",
-                fontWeight: 700,
-              }}
-            >
-              商品を見る
-            </button>
-          )}
-
-
-
-
-
-          <button
-
-            onClick={handleRestart}
-            className="answerButton"
-            style={{
-              padding: "16px 24px",
-              width:"100%",
-              fontSize: "18px",
-              borderRadius: "16px",
-              border: "none",
-              backgroundColor: "#c9a27e",
-              color: "#fff",
-              cursor: "pointer",
-              fontWeight: 700,
-              transition: "0.2s",
-            }}
-          >
-            もう一度診断する
-          </button>
-
-          <button
-            onClick={() => {
-              const text = `RabiVieプレゼント診断の結果は「${top1.name}」でした🌼\n\nあなたも診断してみてね！`;
-              const url = window.location.origin;
-
-              const shareUrl =
-                "https://twitter.com/intent/tweet?text=" +
-                encodeURIComponent(text) +
-                "&url=" +
-                encodeURIComponent(url);
-
-              window.open(shareUrl, "_blank");
-            }}
-             className="answerButton"
-            style={{
-              padding: "16px 24px",
-              width:"100%",
-              fontSize: "18px",
-              borderRadius: "16px",
-              border: "1px solid #4a3a34",
-              backgroundColor: "#fff",
-              color: "#5a3a3a",
-              cursor: "pointer",
-              fontWeight: 700,
-            }}
-          >
-            診断結果をシェア
-          </button>
-        </div>
-
-        <p
-          style={{
-            marginTop: "18px",
-            color: "#7a5a5a",
-            lineHeight: 1.8,
-            fontSize: "15px",
-          }}
-        >
-          Instagramのストーリーズでシェアしてね✨
-        </p>
-        <p
-          style={{
-            marginTop: "10px",
-            color: "#7a5a5a",
-            fontSize: "14px",
-            lineHeight: 1.8,
-          }}
-        >
-          結果をスクショしてシェアも大歓迎です♡
-        </p>
-      </div>
-    </div>
-
-
-
-    {hasMultipleVariants && (
-      <section
-        style={{
-          marginTop: "36px",
-        }}
-      >
-        <h3
-          style={{
-            fontSize: "clamp(26px,6.8vw,32px)",
-            marginBottom: "14px",
-            lineHeight:1.35,
-          }}
-        >
-          ▼ おすすめ商品の種類を選ぶ
-        </h3>
-
-        <p
-          style={{
-            color: "#7a5a5a",
-            marginBottom: "20px",
-            lineHeight: 1.8,
-            fontSize:"18px"
-          }}
-        >
-          気になる種類を選んで、詳細ページをご覧ください。
-        </p>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-            gap: "18px",
-          }}
-        >
-          {top1Variants.map((variant) => (
-
-                      <article
-                        key={variant.name}
-                        style={{
-                          backgroundColor: "#faebd7",
-                          border: "1px solid #d2b48c",
-                          borderRadius: "18px",
-                          padding: "16px",
-                        }}
-                      >
-                        <img
-                          src={variant.image}
-                          alt={variant.name}
-                          style={{
-                            width: "100%",
-                            aspectRatio: "1 / 0.85",
-                            objectFit: "cover",
-                            borderRadius: "14px",
-                            marginBottom: "14px",
-                          }}
-                        />
-
-                        <h4
-                          style={{
-                            fontSize: "clamp(18px,5vw,22px)",
-                            marginBottom: "14px",
-                            lineHeight:1.5,
-                          }}
-                        >
-                          {variant.name}
-                        </h4>
-
-                     
-                         <button
-                             onClick={() => openProductPage(variant.url)}
-                            className="answerButton"
-                            style={{
-                            display: "inline-block",
-                            padding: "12px 18px",
-                            borderRadius: "14px",
-                            border: "#7a5a5a",
-                            backgroundColor:"#c9a27e",
-                            color: "#fff",
-                            textDecoration: "none",
-                            fontWeight: 700,
-                            fontSize:"17px",
-                          }}
-                        >
-                          商品を見る
-                        </button>
-                    
-                      </article>
-                    ))}
-                  </div>
-                </section>
-              )}
+      <main style={shell}>
+        <style>{`
+          .gift-product-card {
+            background: #fffaf6;
+            border: 1px solid #e4d3c6;
+            border-radius: 24px;
+            padding: 22px;
+            box-shadow: 0 8px 26px rgba(90,58,58,0.06);
+          }
+          .gift-product-featured { padding: 28px; }
+          .gift-product-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            gap: 20px;
+            align-items: start;
+          }
+          .gift-product-image-wrap {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: #f6ede7;
+            border-radius: 18px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          .gift-product-image {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+          .gift-product-info { min-width: 0; }
+          @media (min-width: 720px) {
+            .gift-product-layout {
+              grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+              gap: 28px;
+            }
+          }
+          @media (max-width: 719px) {
+            .gift-product-card { padding: 18px; }
+            .gift-product-featured { padding: 20px; }
+          }
+        `}</style>
+        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+          <header style={{ textAlign: "center", marginBottom: 32 }}>
+            <p style={{ color: colors.accent, fontWeight: 700, marginBottom: 8 }}>RabiVie Gift Finder</p>
+            <h1 style={{ fontSize: "clamp(32px, 8vw, 46px)", marginBottom: 12 }}>診断結果</h1>
+            <p style={{ color: colors.muted, lineHeight: 1.8 }}>あなたにぴったりのギフトをご紹介します ♡</p>
+          </header>
+          {results[0] && <ProductCard product={results[0]} answers={answers} featured />}
+          {results.length > 1 && (
+            <section style={{ marginTop: 36 }}>
+              <h2 style={{ fontSize: 24, marginBottom: 18 }}>こちらもおすすめ</h2>
+              <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 18 }}>
+                {results.slice(1).map((product) => <ProductCard key={product.id} product={product} answers={answers} />)}
+              </div>
             </section>
           )}
-
-          <section>
-          
-            <h3
-              style={{
-                fontSize: "22px",
-                marginTop: "50px",
-                marginBottom: "8px",
-               
-              }}            >
-             ▼ こちらもおすすめ
-            </h3>
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-                gap: "18px",
-              
-              }}
-            >
-              {[top2, top3].filter(Boolean).map((item) => {
-                const mainImage = item?.variants?.[0]?.image;
-
-                return (
-                  <article
-                    key={item!.id}
-                    style={{
-                      backgroundColor:"#f8f6f2", color:"#333", boxShadow:"0 10px 30px rgba(0,0,0,0.05)",
-                      borderRadius: "20px",
-                      padding: "24px",
-                      border: "1px solid #d8c9bb",
-                    }}
-                  >
-                    {mainImage && (
-                      <img
-                        src={mainImage}
-                        alt={item!.name}
-                        style={{
-                          width: "100%",
-                          
-                          aspectRatio: "1 / 0.85",
-                          objectFit: "cover",
-                          borderRadius: "16px",
-                          marginBottom: "16px",
-                        }}
-                      />
-                    )}
-
-                    <h4
-                      style={{
-                        fontSize: "clamp(32px,8v,38px)",
-                          marginBottom: "10px",
-                          fontWeight: 600,
-                          lineHeight:1.25,
-                      }}
-                    >
-                      {item!.name}
-                    </h4>
-
-                    <p
-                      style={{
-         　　　    fontSize: "clamp(24px,6.5v,30px)",
-          　　　　  marginBottom: "18px",
-          　　　　　  color: "#b07f5c",
-          　　　　　  fontWeight: 700,
-                      }}
-                    >
-                      {item!.price}
-                    </p>
-
-                    <p
-                      style={{
-                        color: "#7a5a5a",
-                        marginBottom: "16px",
-                        lineHeight: 1.7,
-                      }}
-                    >
-                      近い傾向でおすすめされた候補です。
-                    </p>
-
-                    <div
-                      style={{
-                        fontSize: "14px",
-                        color: "#ccc",
-                        marginBottom: "14px",
-                      }}
-                    >
-                    </div>
-
-                    {item!.variants && item!.variants.length > 0 && (
-                      <button
-                       onClick={() => openProductPage(item!.variants![0].url)}
-                      className="answerButton"
-                          style={{
-                          display: "inline-block",
-                          padding: "12px 18px",
-                          borderRadius: "12px",
-                          backgroundColor:"#c9a27e",
-                          color: "#fff",
-                          textDecoration: "none",
-                          fontWeight: 700,
-                        }}
-                      >
-                        商品を見る
-                      </button>
-                    )}
-                  </article>
-                );
-              })}
-            </div>
-          </section>
+          <p style={{ color: colors.muted, fontSize: 13, lineHeight: 1.8, marginTop: 24 }}>
+            ※価格は選択するオプションなどで変わる場合があります。ご購入前に商品ページでご確認ください。
+          </p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 28 }}>
+            <button onClick={handleRestart} className="answerButton" style={buttonStyle}>もう一度診断する</button>
+            <button onClick={() => {
+              const text = `RabiVieプレゼント診断の結果は「${results[0]?.name ?? ""}」でした。あなたも診断してみてね！`;
+              const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.origin)}`;
+              window.open(shareUrl, "_blank", "noopener,noreferrer");
+            }} className="answerButton" style={{ ...buttonStyle, background: "white", color: colors.ink, border: `1px solid ${colors.border}` }}>
+              診断結果をシェア
+            </button>
+          </div>
+          <p style={{ marginTop: 16, fontSize: 13, color: colors.muted }}>結果をスクリーンショットしてシェアするのも大歓迎です♡</p>
         </div>
       </main>
     );
   }
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        backgroundColor:"#f5efe6",
-        color: "#fff",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "24px",
-        fontFamily:"'Noto Sans JP', sans-serif",
-      }}
-    >
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "760px",
-          backgroundColor:"#ffffff", 
-          color:"#333", 
-          boxShadow:"0 10px 24px rgba(0,0,0,0.06)",
-          borderRadius: "28px",
-          padding: "36px 22px 28px",
-          border: "1px solid #4a3a34",
-        }}
-      >
-        <div
-          style={{
-            fontSize: "20px",
-            color:"#9c7b66",
-            marginBottom: "16px",
-          }}
-        >
+    <main style={{ ...shell, display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ maxWidth: 720, width: "100%", background: "white", borderRadius: 28,
+        border: `1px solid ${colors.border}`, padding: "32px 22px", boxShadow: "0 10px 24px rgba(90,58,58,0.06)" }}>
+        <p style={{ color: colors.accent, fontWeight: 700, marginBottom: 14 }}>
           STEP {currentIndex + 1} / {questions.length}
+        </p>
+        <div style={{ height: 8, background: "#eadfd2", borderRadius: 100, overflow: "hidden", marginBottom: 24 }}>
+          <div style={{ width: `${((currentIndex + 1) / questions.length) * 100}%`, height: "100%",
+            background: colors.accent, borderRadius: 100, transition: "width .2s" }} />
         </div>
-
-        <div
-          style={{
-            width: "100%",
-            height: "8px",
-            backgroundColor: "#eadfd2",
-            borderRadius: "999px",
-            marginBottom: "24px",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              width: `${((currentIndex + 1) / questions.length) * 100}%`,
-              height: "100%",
-              backgroundColor: "#c9a27e",
-              borderRadius: "999px",
-              transition: "width 0.3s ease",
-            }}
-          />
-        </div>
-
-
-        <h1
-          style={{
-            fontSize: "clamp(26px,7vw,32px)",
-            marginBottom: "26px",
-            lineHeight: 1.4,
-            letterSpacing :"0.2px",
-          }}
-        >
+        <h1 style={{ fontSize: "clamp(24px, 6vw, 32px)", lineHeight: 1.5, marginBottom: 22 }}>
           {currentQuestion.title}
         </h1>
-
-
-<div
-  style={{
-    marginBottom: "16px",
-  }}
->
-  {currentIndex > 0 && (
-    <button
-
-      onClick={handleBack}
-      className="answerButton"
-      style={{
-        padding: "12px 18px",
-        fontSize: "15px",
-        borderRadius: "14px",
-        border: "1px solid #c9a27e",
-        backgroundColor: "#fffaf5",
-        color: "#8a6a55",
-        cursor: "pointer",
-        fontWeight: 700,
-      }}
-    >
-      ← 前の質問に戻る
-    </button>
-  )}
-</div>
-
-
-
-        <div
-          style={{
-            display: "grid",
-            gap: "18px",
-          }}
-        >
+        {currentIndex > 0 && (
+          <button onClick={() => setCurrentIndex((index) => index - 1)} className="answerButton"
+            style={{ background: "#fffaf5", border: `1px solid ${colors.border}`, color: colors.ink,
+              padding: "10px 15px", borderRadius: 12, marginBottom: 20, cursor: "pointer" }}>
+            ← 前の質問に戻る
+          </button>
+        )}
+        <div style={{ display: "grid", gap: 12 }}>
           {currentQuestion.options.map((option) => (
-            <button
-              key={option.value}
-              onClick={() => handleSelect(option.value)}
-              className="answerButton"
-              style={{
-                textAlign: "left",
-                fontWeight: 700,
-                padding: "20px 22px",
-                borderRadius: "18px",
-                border: "1px solid #4a3a34",
-                backgroundColor:"#c9a27e",
-                color: "#fff",
-                cursor: "pointer",
-                fontSize: "clamp(17px,4.6vw,19px)",
-                lineHeight: 1.6,
-                transition:"0.2s",
-                boxShadow:"0 4px 12px rgba(0,0,0,0.03)",
-              }}
-            >
+            <button key={option.value} onClick={() => handleSelect(option.value)} className="answerButton"
+              style={{ ...buttonStyle, width: "100%", textAlign: "left", fontSize: "clamp(16px, 4vw, 18px)",
+                padding: "17px 20px", background: answers[currentQuestion.id] === option.value ? "#9c7058" : colors.accent }}>
               {option.label}
             </button>
           ))}
